@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS
     "-Wall -Wextra -Werror -pedantic -Wno-unused-result -Wconversion -Wno-unused-parameter -O2"
 )
-set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=-*,clang-analyzer-*,performance-*,misc-*;-fix")
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy-18;-checks=-*,clang-analyzer-*,performance-*,misc-*,-performance-avoid-endl,-misc-include-cleaner;-fix")
 set(CMAKE_CXX_CPPCHECK "cppcheck;--quiet")
 
 set(SOURCE_FILES

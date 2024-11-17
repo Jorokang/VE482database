@@ -26,7 +26,7 @@ QueryResult::Ptr InsertQuery::execute() {
     for (auto it = ++this->operands.begin(); it != this->operands.end(); ++it) {
       data.emplace_back(strtol(it->c_str(), nullptr, 10));
     }
-    table.insertByIndex(key, move(data));
+    table.insertByIndex(key, std::move(data));
     return std::make_unique<SuccessMsgResult>(qname, targetTable);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
