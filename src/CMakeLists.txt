@@ -21,6 +21,8 @@ set(SOURCE_FILES
     query/QueryResult.cpp
     query/QueryBuilders.h
     query/QueryBuilders.cpp
+    query/management/CopyTableQuery.h
+    query/management/CopyTableQuery.cpp
     query/management/TruncateTableQuery.h
     query/management/TruncateTableQuery.cpp
     query/management/LoadTableQuery.h
