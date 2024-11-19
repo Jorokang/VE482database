@@ -21,6 +21,10 @@ set(SOURCE_FILES
     query/QueryResult.cpp
     query/QueryBuilders.h
     query/QueryBuilders.cpp
+    query/management/CopyTableQuery.h
+    query/management/CopyTableQuery.cpp
+    query/management/TruncateTableQuery.h
+    query/management/TruncateTableQuery.cpp
     query/management/LoadTableQuery.h
     query/management/LoadTableQuery.cpp
     query/management/DropTableQuery.h
@@ -36,6 +40,10 @@ set(SOURCE_FILES
     query/management/QuitQuery.h
     query/management/PrintTableQuery.h
     query/management/PrintTableQuery.cpp
+    query/data/SumQuery.h
+    query/data/SumQuery.cpp
+    query/data/MaxQuery.h
+    query/data/MaxQuery.cpp
     query/data/InsertQuery.h
     query/data/InsertQuery.cpp
     query/data/UpdateQuery.h
