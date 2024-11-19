@@ -10,7 +10,7 @@
 #include "../db/Database.h"
 #include "data/InsertQuery.h"
 #include "data/UpdateQuery.h"
-#include "management/CopyTableQuery.h"
+#include "data/MaxQuery.h"
 #include "management/TruncateTableQuery.h"
 #include "management/DropTableQuery.h"
 #include "management/DumpTableQuery.h"
@@ -173,9 +173,7 @@ Query::Ptr ComplexQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
                                          /*return std::make_unique<MinQuery>(
                                                  this->targetTable, this->operandToken, this->conditionToken);*/
   if (operation == "MAX")
-    return std::make_unique<NopQuery>(); // Not implemented
-                                         /*return std::make_unique<MaxQuery>(
-                                                 this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<MaxQuery>(this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "ADD")
     return std::make_unique<NopQuery>(); // Not implemented
                                          /*return std::make_unique<AddQuery>(

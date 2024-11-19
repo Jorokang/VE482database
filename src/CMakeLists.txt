@@ -40,6 +40,8 @@ set(SOURCE_FILES
     query/management/QuitQuery.h
     query/management/PrintTableQuery.h
     query/management/PrintTableQuery.cpp
+    query/data/MaxQuery.h
+    query/data/MaxQuery.cpp
     query/data/InsertQuery.h
     query/data/InsertQuery.cpp
     query/data/UpdateQuery.h
