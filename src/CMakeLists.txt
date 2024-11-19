@@ -44,6 +44,8 @@ set(SOURCE_FILES
     query/data/SumQuery.cpp
     query/data/MaxQuery.h
     query/data/MaxQuery.cpp
+    query/data/MinQuery.h
+    query/data/MinQuery.cpp
     query/data/InsertQuery.h
     query/data/InsertQuery.cpp
     query/data/UpdateQuery.h
