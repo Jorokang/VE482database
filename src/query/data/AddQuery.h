@@ -5,7 +5,6 @@
 
 class AddQuery : public ComplexQuery {
     static constexpr const char *qname = "ADD";
-    Table::ValueType fieldValue;
     std::vector<Table::FieldIndex> fieldIds;
     Table::FieldIndex destFieldId;
     
