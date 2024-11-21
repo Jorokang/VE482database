@@ -16,6 +16,7 @@
 #include "management/TruncateTableQuery.h"
 #include "management/DropTableQuery.h"
 #include "management/DumpTableQuery.h"
+#include "management/CopyTableQuery.h"
 #include "management/ListTableQuery.h"
 #include "management/LoadTableQuery.h"
 #include "management/PrintTableQuery.h"
