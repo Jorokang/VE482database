@@ -1,0 +1,7 @@
+// changelog for features, bugs and other changes.
+
+
+11/21: zcy add thread detection feature.
+11/21: zcy fix missing header in QueryBuilders.cpp.
+11/22: zcy report bug with RecordCountResult.
+11/22: zcy add AddQuery feature.
