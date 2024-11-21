@@ -88,8 +88,14 @@ int main(int argc, char *argv[]) {
               << parsedArgs.threads << std::endl;
     exit(-1);
   } else if (parsedArgs.threads == 0) {
-    // @TODO Auto detect the thread num
-    std::cerr << "lemondb: info: auto detect thread num" << std::endl;
+    auto t_count = std::thread::hardware_concurrency();
+    if (t_count == 0){
+      std::cerr << "lemondb: error: can not detect thread num, will use 1 thread" << std::endl;
+      parsedArgs.threads = 1;
+    } else {
+      std::cerr << "lemondb: info: auto detect thread num" << std::endl;
+      parsedArgs.threads = t_count;
+    }
   } else {
     std::cerr << "lemondb: info: running in " << parsedArgs.threads
               << " threads" << std::endl;
