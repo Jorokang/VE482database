@@ -42,6 +42,8 @@ set(SOURCE_FILES
     query/management/PrintTableQuery.cpp
     query/data/SumQuery.h
     query/data/SumQuery.cpp
+    query/data/SubQuery.h
+    query/data/SubQuery.cpp
     query/data/MaxQuery.h
     query/data/MaxQuery.cpp
     query/data/MinQuery.h
