@@ -32,3 +32,4 @@ build/
 !.editorconfig
 !.gitignore
 !.gitattributes
+!CHANGELOG.log
