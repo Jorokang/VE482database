@@ -46,6 +46,8 @@ set(SOURCE_FILES
     query/data/SubQuery.cpp
     query/data/MaxQuery.h
     query/data/MaxQuery.cpp
+    query/data/SwapQuery.h
+    query/data/SwapQuery.cpp
     query/data/MinQuery.h
     query/data/MinQuery.cpp
     query/data/InsertQuery.h
