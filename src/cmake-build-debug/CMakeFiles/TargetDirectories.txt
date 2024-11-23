@@ -1,3 +1,0 @@
-C:/Users/lenovo/Desktop/p2/p2team-06/src/cmake-build-debug/CMakeFiles/lemondb.dir
-C:/Users/lenovo/Desktop/p2/p2team-06/src/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/lenovo/Desktop/p2/p2team-06/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
