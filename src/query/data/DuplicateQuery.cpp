@@ -18,10 +18,6 @@ QueryResult::Ptr DuplicateQuery::execute() {
       for (auto it = table.begin(); it != table.end(); ++it) {
         if (this->evalCondition(*it)) {
           toBeInserted.push_back(it);
-          // cout << "Debug: trying to duplicate key " << it->key() << endl;
-          // table.duplicateKey(it, counter);
-          // cout << "Debug: duplicated key" << it->key() << endl;
-          // Table::Keytype key = it->key;
           counter++;
         }
       }
@@ -29,9 +25,6 @@ QueryResult::Ptr DuplicateQuery::execute() {
     for (auto it = toBeInserted.begin(); it != toBeInserted.end(); ++it) {
       table.duplicateKey(*it, counter);
     }
-    // if (toBeInserted.size() > 0) {
-    //   table.duplicateKey(toBeInserted, counter);
-    // }
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
