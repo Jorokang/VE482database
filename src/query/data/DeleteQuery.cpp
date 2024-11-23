@@ -5,52 +5,38 @@
 constexpr const char *DeleteQuery::qname;
 
 QueryResult::Ptr DeleteQuery::execute() {
-  using namespace std;
+    using namespace std;
 
+    Database &db = Database::getInstance();
+    Table::SizeType deletedCount = 0;
 
-  if (operands.empty()) {
-    return make_unique<ErrorMsgResult>(
-        qname, "", "Missing target table."s);
-  }
+    try {
+        auto &table = db[this->targetTable];
 
-  Database &db = Database::getInstance();
-  Table::SizeType deletedCount = 0;
-
-  try {
-
-
-    auto &table = db[targetTable];
-
-    auto result = initCondition(table);
-    if (result.second) {
-      for (auto it = table.begin(); it != table.end(); ) {
-        if (evalCondition(*it)) {
-          it = table.erase(it); // Update 'it' with the iterator returned by 'erase'
-          ++deletedCount;
-        } else {
-          ++it;
+        // 初始化查询条件
+        auto result = initCondition(table);
+        if (result.second) {
+            for (auto it = table.begin(); it != table.end();) {
+                if (this->evalCondition(*it)) {
+                    it = table.erase(it); // 更新迭代器
+                    ++deletedCount;
+                } else {
+                    ++it;
+                }
+            }
         }
-      }
+
+        return make_unique<RecordCountResult>(deletedCount);
+    } catch (const TableNameNotFound &e) {
+        return make_unique<ErrorMsgResult>(qname, this->targetTable, "No such table."s);
+    } catch (const IllFormedQueryCondition &e) {
+        return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    } catch (const invalid_argument &e) {
+        return make_unique<ErrorMsgResult>(qname, this->targetTable, "Unknown error '?'"_f % e.what());
+    } catch (const exception &e) {
+        return make_unique<ErrorMsgResult>(qname, this->targetTable, "Unknown error '?'."_f % e.what());
     }
-
-
-    return make_unique<RecordCountResult>(deletedCount);
-  } catch (const TableNameNotFound &e) {
-
-    return make_unique<ErrorMsgResult>(qname, targetTable, "No such table."s);
-  } catch (const IllFormedQueryCondition &e) {
-
-    return make_unique<ErrorMsgResult>(qname, targetTable, e.what());
-  } catch (const invalid_argument &e) {
-
-    return make_unique<ErrorMsgResult>(qname, targetTable, "Unknown error '?'"_f % e.what());
-  } catch (const exception &e) {
-
-    return make_unique<ErrorMsgResult>(qname, targetTable, "Unknown error '?'."_f % e.what());
-  }
 }
-
-
 std::string DeleteQuery::toString() {
-  return "QUERY = DELETE " + targetTable;
+    return "QUERY = DELETE " + this->targetTable;
 }

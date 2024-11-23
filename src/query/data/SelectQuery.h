@@ -2,6 +2,8 @@
 #define SELECTQUERY_H
 
 #include "../Query.h"
+#include "../QueryResult.h"
+#include <string>
 
 class SelectQuery : public ComplexQuery {
     static constexpr const char *qname = "SELECT";
@@ -14,6 +16,4 @@ public:
     std::string toString() override;
 };
 
-
-std::string join(const std::vector<std::string>& vec, const std::string& delimiter);
 #endif // SELECTQUERY_H

@@ -1,93 +1,63 @@
 #include "SelectQuery.h"
-
-#include <iostream>
-
 #include "../../db/Database.h"
+#include <string>
+#include <utility>
+#include <vector>
 
 constexpr const char *SelectQuery::qname;
 
-// In SelectQuery.cpp (example execution logic)
 QueryResult::Ptr SelectQuery::execute() {
-    using namespace std;
+  using namespace std;
+  Database &db = Database::getInstance();
+  try {
+    auto &table = db[this->targetTable];
+    auto result = initCondition(table);
 
-    auto opcount = this->operands.size();
-    if (opcount == 0) {
-        return make_unique<ErrorMsgResult>(
-            qname, this->targetTable.c_str(),
-            "No fields selected."s);
+    vector<Table::FieldIndex> targetFields;
+    targetFields.reserve(this->operands.size());
+    // for (const auto &field : this->operands) {
+    for (auto it = this->operands.begin() + 1; it != this->operands.end();
+         ++it) {
+      targetFields.push_back(table.getFieldIndex(*it));
     }
 
-    Database &db = Database::getInstance();
-    try {
-        auto &table = db[this->targetTable];
-
-
-        auto result = initCondition(table);
-        if (result.second) {
-            vector<vector<string>> selectedRecords;
-            size_t recordCount = 0;
-
-
-            for (auto it = table.begin(); it != table.end(); ++it) {
-                if (evalCondition(*it)) {
-                    vector<string> record;
-                    for (const auto &field : this->operands) {
-                        try {
-                            auto fieldValue = (*it).get(field);
-                            record.push_back(to_string(fieldValue));
-                        } catch (const TableFieldNotFound &e) {
-                            return make_unique<ErrorMsgResult>(
-                                qname, this->targetTable, e.what());
-                        }
-                    }
-                    selectedRecords.push_back(record);
-                    ++recordCount;
-                }
-            }
-
-
-            cout << recordCount << endl;
-            return make_unique<SelectQueryResult>(recordCount, selectedRecords);
-        } else {
-            return make_unique<ErrorMsgResult>(
-                qname, this->targetTable.c_str(),
-                "Invalid query condition."s);
+    vector<pair<string, string>> selected;
+    if (result.second) {
+      for (auto it = table.begin(); it != table.end(); ++it) {
+        if (this->evalCondition(*it)) {
+          Table::KeyType const key = it->key();
+          string values;
+          for (auto &fieldId : targetFields) {
+            values += to_string(it->get(fieldId)) + " ";
+          }
+          selected.push_back(make_pair(key, values));
         }
-
-    } catch (const TableNameNotFound &e) {
-        return make_unique<ErrorMsgResult>(qname, this->targetTable, "No such table.");
-    } catch (const IllFormedQueryCondition &e) {
-        return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
-    } catch (const exception &e) {
-      return make_unique<ErrorMsgResult>(
-  qname, this->targetTable, "Unknown error: " + std::string(e.what()));
-
+      }
+      sort(selected.begin(), selected.end(),
+           [](const auto &a, const auto &b) { return a.first < b.first; });
     }
-}
-
-std::string join(const std::vector<std::string>& vec, const std::string& delimiter) {
-  std::ostringstream oss;
-  for (size_t i = 0; i < vec.size(); ++i) {
-    if (i != 0) {
-      oss << delimiter;
+    // Format the result
+    ostringstream os;
+    for (const auto &pair : selected) {
+      os << "( " << pair.first << " ";
+      os << pair.second << ")" << endl;
     }
-    oss << vec[i];
+
+    return make_unique<SuccessMsgResult>(os.str().data());
+  } catch (const TableNameNotFound &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+                                       "No such table."s);
+  } catch (const IllFormedQueryCondition &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+  } catch (const invalid_argument &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+                                       "Unknown error '?'"_f % e.what());
+  } catch (const exception &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+                                       "Unknown error '?'."_f % e.what());
   }
-  return oss.str();
 }
 
 std::string SelectQuery::toString() {
-    std::string queryStr = "QUERY = SELECT ";
-    queryStr += (this->operands.empty()) ? "*" : join(this->operands, ", "); // 如果没有字段，默认查询所有
-    queryStr += " FROM " + this->targetTable;
-
-    if (!this->condition.empty()) {
-        queryStr += " WHERE ";
-        for (const auto &cond : this->condition) {
-            queryStr += cond.field + " " + cond.op + " " + cond.value + " AND ";
-        }
-        queryStr = queryStr.substr(0, queryStr.size() - 4); // 去除最后的 " AND "
-    }
-
-    return queryStr;
+  return "QUERY = SELECT " + this->targetTable + "\"";
 }

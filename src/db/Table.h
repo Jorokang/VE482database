@@ -235,7 +235,7 @@ public:
 
     bool operator<(const IteratorImpl &other) { return this->it < other.it; }
 
-    bool operator>(const IteratorImpl &other) { return this->it > other.it; }
+    bool operator>(const IteratorImpl &other)const { return this->it > other.it; }
   };
 
   typedef IteratorImpl<Object, decltype(data.begin())> Iterator;
