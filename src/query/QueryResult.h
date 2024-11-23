@@ -78,7 +78,7 @@ public:
   bool display() override { return false; }
 
   explicit SuccessMsgResult(const int number) {
-    this->msg = R"(ANSWER = "?".)"_f % number;
+    this->msg = R"(ANSWER = ?)"_f % number;
   }
 
   explicit SuccessMsgResult(std::vector<int> results) {
