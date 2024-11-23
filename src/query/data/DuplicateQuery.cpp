@@ -23,7 +23,7 @@ QueryResult::Ptr DuplicateQuery::execute() {
       }
       table.duplicateKey(toBeInserted);
     }
-    return make_unique<SuccessMsgResult>(counter);
+    return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
                                        "No such table."s);
