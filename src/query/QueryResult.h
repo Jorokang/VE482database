@@ -78,7 +78,7 @@ public:
   bool display() override { return false; }
 
   explicit SuccessMsgResult(const int number) {
-    this->msg = R"(ANSWER = "?".)"_f % number;
+    this->msg = R"(ANSWER = ?)"_f % number;
   }
 
   explicit SuccessMsgResult(std::vector<int> results) {
@@ -94,6 +94,8 @@ public:
   explicit SuccessMsgResult(const char *qname) {
     this->msg = R"(Query "?" success.)"_f % qname;
   }
+
+  explicit SuccessMsgResult(const std::string &msg) { this->msg = msg; }
 
   SuccessMsgResult(const char *qname, const std::string &msg) {
     this->msg = R"(Query "?" success : ?)"_f % qname % msg;

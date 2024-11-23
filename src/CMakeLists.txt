@@ -56,6 +56,10 @@ set(SOURCE_FILES
     query/data/UpdateQuery.cpp
     query/data/AddQuery.h
     query/data/AddQuery.cpp
+    query/data/CountQuery.h
+    query/data/CountQuery.cpp
+    query/data/SelectQuery.h
+    query/data/SelectQuery.cpp
     query/data/DuplicateQuery.h
     query/data/DuplicateQuery.cpp
     utils/formatter.h
