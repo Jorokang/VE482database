@@ -287,6 +287,14 @@ public:
    */
   void insertByIndex(const KeyType &key, std::vector<ValueType> &&data);
 
+  void duplicateKey(std::vector<Table::Iterator> &toBeDuplicated) {
+    for (auto toInsert = toBeDuplicated.begin();
+         toInsert != toBeDuplicated.end(); ++toInsert) {
+      auto newKey = toInsert->it->key + "_copy";
+      insertByIndex(newKey, std::move(toInsert->it->datum));
+    }
+  }
+
   /**
    * Access the value according to the key
    * @param key

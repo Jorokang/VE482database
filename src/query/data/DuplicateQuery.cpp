@@ -1,5 +1,6 @@
 #include "DuplicateQuery.h"
 #include "../../db/Database.h"
+#include <vector>
 
 constexpr const char *DuplicateQuery::qname;
 
@@ -9,6 +10,18 @@ QueryResult::Ptr DuplicateQuery::execute() {
   Table::SizeType counter = 0;
 
   try {
+    Table &table = db[this->targetTable];
+    auto result = initCondition(table);
+    if (result.second) {
+      vector<Table::Iterator> toBeInserted;
+      for (auto it = table.begin(); it != table.end(); ++it) {
+        if (this->evalCondition(*it)) {
+          toBeInserted.push_back(it);
+          // Table::Keytype key = it->key;
+        }
+      }
+      table.duplicateKey(toBeInserted);
+    }
     return make_unique<SuccessMsgResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
