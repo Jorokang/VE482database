@@ -24,12 +24,22 @@ Table::getFieldIndex(const Table::FieldNameType &field) const {
 
 void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   if (this->keyMap.find(key) != this->keyMap.end()) {
-    std::string const err = "In Table \"" + this->tableName + "\" : Key \"" + key +
-                      "\" already exists!";
+    std::string const err = "In Table \"" + this->tableName + "\" : Key \"" +
+                            key + "\" already exists!";
     throw ConflictingKey(err);
   }
   this->keyMap.emplace(key, this->data.size());
   this->data.emplace_back(key, data);
+}
+
+void Table::duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter) {
+  auto newKey = toBeDuplicated->it->key + "_copy";
+  if (keyMap.find(newKey) != keyMap.end()) {
+    counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+    return;
+  }
+  auto data = (*this)[toBeDuplicated->it->key]->it->datum;
+  insertByIndex(newKey, std::move(data));
 }
 
 Table::Object::Ptr Table::operator[](const Table::KeyType &key) {
