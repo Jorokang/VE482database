@@ -58,6 +58,8 @@ private:
     Datum() = default;
 
     Datum(const Datum &) = default;
+    Datum &operator=(const Datum &) = default;
+
 
     explicit Datum(const SizeType &size) {
       datum = std::vector<ValueType>(size, ValueType());
@@ -335,6 +337,7 @@ public:
     return result;
   }
 
+  Iterator erase(Iterator pos);
   /**
    * Get a begin iterator similar to the standard iterator
    * @return begin iterator

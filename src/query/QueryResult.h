@@ -124,4 +124,32 @@ protected:
   }
 };
 
+class SelectQueryResult : public SucceededQueryResult {
+private:
+  size_t recordCount;
+  std::vector<std::vector<std::string>> records;
+
+public:
+
+  SelectQueryResult(size_t recordCount, std::vector<std::vector<std::string>> records)
+      : recordCount(recordCount), records(std::move(records)) {}
+
+  size_t getRecordCount() const { return recordCount; }
+  const std::vector<std::vector<std::string>>& getRecords() const { return records; }
+
+  bool display() override { return true; }
+
+protected:
+
+  std::ostream &output(std::ostream &os) const override {
+    os << "Query returned " << recordCount << " record(s):\n";
+    for (const auto& record : records) {
+      for (const auto& field : record) {
+        os << field << " ";
+      }
+      os << "\n";
+    }
+    return os;
+  }
+};
 #endif // PROJECT_QUERYRESULT_H
