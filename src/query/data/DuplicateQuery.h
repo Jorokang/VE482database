@@ -1,0 +1,19 @@
+#ifndef DUPLICATEQUERY_H
+#define DUPLICATEQUERY_H
+
+#include "../Query.h"
+#include "../QueryResult.h"
+#include <string>
+
+class DuplicateQuery : public ComplexQuery {
+  static constexpr const char *qname = "DUPLICATE";
+
+public:
+  using ComplexQuery::ComplexQuery;
+
+  QueryResult::Ptr execute() override;
+
+  std::string toString() override;
+};
+
+#endif // DUPLICATEQUERY_H

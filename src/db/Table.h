@@ -5,6 +5,7 @@
 #ifndef PROJECT_DB_TABLE_H
 #define PROJECT_DB_TABLE_H
 
+#include <iostream>
 #include <limits>
 #include <memory>
 #include <string>
@@ -286,6 +287,14 @@ public:
    * @param data
    */
   void insertByIndex(const KeyType &key, std::vector<ValueType> &&data);
+
+  /**
+   * @brief Duplicate a key in the table
+   *
+   * @param toBeDuplicated
+   * @param counter
+   */
+  void duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter);
 
   /**
    * Access the value according to the key
