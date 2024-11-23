@@ -11,6 +11,9 @@
 
 #include "query/QueryBuilders.h"
 #include "query/QueryParser.h"
+#include "query/Multithread.h"
+
+Thread_pool pool;
 
 struct {
   std::string listen;
@@ -94,10 +97,12 @@ int main(int argc, char *argv[]) {
       std::cerr << "lemondb: error: can not detect thread num, will use 1 thread" << std::endl;
       parsedArgs.threads = 1;
     } else {
+      pool.set_thread((int)t_count);
       std::cerr << "lemondb: info: auto detect thread num" << std::endl;
       parsedArgs.threads = t_count;
     }
   } else {
+    pool.set_thread((int)parsedArgs.threads);
     std::cerr << "lemondb: info: running in " << parsedArgs.threads
               << " threads" << std::endl;
   }

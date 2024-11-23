@@ -10,6 +10,14 @@ class AddQuery : public ComplexQuery {
     
 public:
     using ComplexQuery::ComplexQuery;
+
+    std::vector<Table::FieldIndex> getFieldIds() {
+        return fieldIds;
+    }
+
+    Table::FieldIndex getDestFieldId() {
+        return destFieldId;
+    }
     
     QueryResult::Ptr execute() override;
     
