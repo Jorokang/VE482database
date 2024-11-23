@@ -1,0 +1,3 @@
+"D:\Softwares\CLion 2024.2.0.1\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\lemondb.dir/objects.a
+"D:\Softwares\CLion 2024.2.0.1\bin\mingw\bin\ar.exe" qc CMakeFiles\lemondb.dir/objects.a @CMakeFiles\lemondb.dir\objects1.rsp
+"D:\Softwares\CLion 2024.2.0.1\bin\mingw\bin\g++.exe" -Wall -Wextra -Werror -pedantic -Wno-unused-result -Wconversion -Wno-unused-parameter -O2 -g -Wl,--whole-archive CMakeFiles\lemondb.dir/objects.a -Wl,--no-whole-archive -o lemondb.exe -Wl,--out-implib,liblemondb.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\lemondb.dir\linkLibs.rsp
