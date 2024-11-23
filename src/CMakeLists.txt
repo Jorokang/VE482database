@@ -56,6 +56,8 @@ set(SOURCE_FILES
     query/data/UpdateQuery.cpp
     query/data/AddQuery.h
     query/data/AddQuery.cpp
+    query/data/DuplicateQuery.h
+    query/data/DuplicateQuery.cpp
     utils/formatter.h
     utils/uexception.h)
 add_executable(lemondb main.cpp ${SOURCE_FILES})

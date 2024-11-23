@@ -18,6 +18,7 @@ QueryResult::Ptr DuplicateQuery::execute() {
         if (this->evalCondition(*it)) {
           toBeInserted.push_back(it);
           // Table::Keytype key = it->key;
+          counter++;
         }
       }
       table.duplicateKey(toBeInserted);
