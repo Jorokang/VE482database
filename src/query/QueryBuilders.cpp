@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "../db/Database.h"
+#include "data/DeleteQuery.h"
 #include "data/InsertQuery.h"
 #include "data/UpdateQuery.h"
 #include "data/MaxQuery.h"
@@ -159,9 +160,9 @@ Query::Ptr ComplexQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
   /*return std::make_unique<SelectQuery>(
           this->targetTable, this->operandToken, this->conditionToken);*/
   if (operation == "DELETE")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<DeleteQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+
+    return std::make_unique<DeleteQuery>(
+            this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "DUPLICATE")
     return std::make_unique<NopQuery>(); // Not implemented
   /*return std::make_unique<DuplicateQuery>(
