@@ -2,6 +2,7 @@
 #define COUNTQUERY_H
 
 #include "../Query.h"
+#include "../QueryResult.h"
 #include <string>
 
 class CountQuery : public ComplexQuery {
