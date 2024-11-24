@@ -15,6 +15,10 @@ public:
     QueryResult::Ptr execute() override;
 
     std::string toString() override;
+
+    Table::FieldIndex getFieldId1() { return fieldId1; }
+
+    Table::FieldIndex getFieldId2() { return fieldId2; }
 };
 
 #endif
