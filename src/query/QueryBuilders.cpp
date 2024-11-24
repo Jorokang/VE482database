@@ -164,21 +164,16 @@ Query::Ptr ComplexQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
     return std::make_unique<UpdateQuery>(this->targetTable, this->operandToken,
                                          this->conditionToken);
   if (operation == "SELECT")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<SelectQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<SelectQuery>(
+          this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "DELETE")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<DeleteQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<DeleteQuery>(
+          this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "DUPLICATE")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<DuplicateQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<DuplicateQuery>(
+          this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "COUNT")
-    return std::make_unique<NopQuery>(); // Not implemented
-                                         /*return std::make_unique<CountQuery>(
-                                                 this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<CountQuery>(this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "SUM")
     return std::make_unique<SumQuery>(this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "MIN")
