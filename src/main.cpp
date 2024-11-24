@@ -11,6 +11,9 @@
 
 #include "query/QueryBuilders.h"
 #include "query/QueryParser.h"
+#include "query/Multithread.h"
+
+Thread_pool pool;
 
 struct {
   std::string listen;
@@ -39,7 +42,7 @@ void parseArgs(int argc, char *argv[]) {
 std::string extractQueryString(std::istream &is) {
   std::string buf;
   do {
-    int ch = is.get();
+    int const ch = is.get();
     if (ch == ';')
       return buf;
     if (ch == EOF)
@@ -94,10 +97,12 @@ int main(int argc, char *argv[]) {
       std::cerr << "lemondb: error: can not detect thread num, will use 1 thread" << std::endl;
       parsedArgs.threads = 1;
     } else {
+      pool.set_thread((int)t_count);
       std::cerr << "lemondb: info: auto detect thread num" << std::endl;
       parsedArgs.threads = t_count;
     }
   } else {
+    pool.set_thread((int)parsedArgs.threads);
     std::cerr << "lemondb: info: running in " << parsedArgs.threads
               << " threads" << std::endl;
   }
@@ -114,7 +119,7 @@ int main(int argc, char *argv[]) {
     try {
       // A very standard REPL
       // REPL: Read-Evaluate-Print-Loop
-      std::string queryStr = extractQueryString(is);
+      std::string const queryStr = extractQueryString(is);
       Query::Ptr query = p.parseQuery(queryStr);
       QueryResult::Ptr result = query->execute();
       std::cout << ++counter << "\n";
