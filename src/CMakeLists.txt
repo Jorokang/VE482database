@@ -56,12 +56,10 @@ set(SOURCE_FILES
     query/data/UpdateQuery.cpp
     query/data/AddQuery.h
     query/data/AddQuery.cpp
-    query/data/SelectQuery.h
-    query/data/SelectQuery.cpp
-    query/data/DeleteQuery.cpp
+        query/data/DeleteQuery.cpp
     query/data/DeleteQuery.h
     utils/formatter.h
     utils/uexception.h
-        query/data/SelectQuery.h)
+)
 add_executable(lemondb main.cpp ${SOURCE_FILES})
 target_link_libraries(lemondb pthread)
