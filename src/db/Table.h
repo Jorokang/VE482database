@@ -59,6 +59,8 @@ private:
     Datum() = default;
 
     Datum(const Datum &) = default;
+    Datum &operator=(const Datum &) = default;
+
 
     explicit Datum(const SizeType &size) {
       datum = std::vector<ValueType>(size, ValueType());
@@ -234,7 +236,7 @@ public:
 
     bool operator<(const IteratorImpl &other) { return this->it < other.it; }
 
-    bool operator>(const IteratorImpl &other) { return this->it > other.it; }
+    bool operator>(const IteratorImpl &other)const { return this->it > other.it; }
   };
 
   typedef IteratorImpl<Object, decltype(data.begin())> Iterator;
@@ -344,6 +346,7 @@ public:
     return result;
   }
 
+  Iterator erase(Iterator pos);
   /**
    * Get a begin iterator similar to the standard iterator
    * @return begin iterator

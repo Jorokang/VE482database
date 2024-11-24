@@ -54,6 +54,23 @@ Table::Object::Ptr Table::operator[](const Table::KeyType &key) {
         this);
   }
 }
+ Table::Iterator Table::erase(Iterator pos) {
+    // Access the underlying DataIterator from Iterator
+    auto dataIt = pos.it;
+
+    // Remove the key from keyMap
+    auto keyIt = keyMap.find(dataIt->key);
+    if (keyIt != keyMap.end()) {
+        keyMap.erase(keyIt);
+    }
+
+    // Erase the datum from data vector and get the new DataIterator
+    auto newDataIt = data.erase(dataIt);
+
+    // Return a new Iterator pointing to the next valid element
+    return Iterator(newDataIt, this);
+}
+
 
 std::ostream &operator<<(std::ostream &os, const Table &table) {
   const int width = 10;
