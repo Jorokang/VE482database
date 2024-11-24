@@ -13,6 +13,10 @@
 #include "../db/Database.h"
 #include "QueryResult.h"
 
+#ifndef MIN_THREAD_REGION_SIZE
+#define MIN_THREAD_REGION_SIZE 2000
+#endif
+
 class Thread_pool {
 private:
     std::mutex mut;

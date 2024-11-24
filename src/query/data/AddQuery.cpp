@@ -64,7 +64,7 @@ QueryResult::Ptr AddQuery::execute(){
                 }
             }
         } else {
-            thread_num = std::min(thread_num, (unsigned int)(table.size() / 2000 + 1));
+            thread_num = std::min(thread_num, (unsigned int)(table.size() / MIN_THREAD_REGION_SIZE + 1));
             unsigned int const RegionSize = (unsigned int)(table.size()) / thread_num;
             std::vector<std::future<void>> future_vector((unsigned long)thread_num);
             for (unsigned long i = 0; i < thread_num; i++)
