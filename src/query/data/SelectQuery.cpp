@@ -38,9 +38,12 @@ QueryResult::Ptr SelectQuery::execute() {
     }
     // Format the result
     ostringstream os;
-    for (const auto &pair : selected) {
-      os << "( " << pair.first << " ";
-      os << pair.second << ")" << endl;
+    for (auto it = selected.begin(); it != selected.end(); ++it) {
+      os << "( " << it->first << " ";
+      os << it->second << ")";
+      if (it + 1 != selected.end()) {
+        os << "\n";
+      }
     }
 
     return make_unique<SuccessMsgResult>(os.str());
