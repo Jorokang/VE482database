@@ -333,7 +333,7 @@ public:
 
   void deleteByIndex(const KeyType &key) {
     auto keyIt = keyMap.find(key);
-    std::cout << "Debug: Deleting key " << key << std::endl;
+    // std::cout << "Debug: Deleting key " << key << std::endl;
     if (keyIt != keyMap.end()) {
       keyMap.erase(keyIt);
     }
@@ -341,11 +341,11 @@ public:
     // Find the keyIt position and erase it from the data vector
     for (size_t i = 0; i < data.size(); ++i) {
       if (data[i].key == key) {
-        std::cout << "With content: ";
-        for (auto &value : data[i].datum) {
-          std::cout << value << " ";
-        }
-        std::cout << std::endl;
+        // std::cout << "With content: ";
+        // for (auto &value : data[i].datum) {
+        //   std::cout << value << " ";
+        // }
+        // std::cout << std::endl;
         std::swap(data[i], data.back());
         data.pop_back();
         break;
