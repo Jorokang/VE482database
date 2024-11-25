@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "Database.h"
 
@@ -32,15 +33,33 @@ void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   this->data.emplace_back(key, data);
 }
 
-void Table::duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter) {
-  auto newKey = toBeDuplicated->it->key + "_copy";
-  if (keyMap.find(newKey) != keyMap.end()) {
-    counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
-    return;
-  }
-  auto data = (*this)[toBeDuplicated->it->key]->it->datum;
-  insertByIndex(newKey, std::move(data));
-}
+// void Table::duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
+//                          size_t &counter) {
+//   for (auto &it : toBeDuplicated) {
+//     auto newKey = it->key() + "_copy";
+//     if (keyMap.find(newKey) != keyMap.end()) {
+//       counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+//       continue;
+//     }
+//     auto data = (*this)[it->key()]->it->datum;
+//     std::cout << "Debug: Duplicating key " << it->key() << " to " << newKey
+//               << std::endl;
+//     std::cout << "Debug: with data: ";
+//     for (auto &value : data) {
+//       std::cout << value << " ";
+//     }
+//     std::cout << std::endl;
+//     insertByIndex(newKey, std::move(data));
+//   }
+//   // auto newKey = toBeDuplicated->it->key + "_copy";
+//   // if (keyMap.find(newKey) != keyMap.end()) {
+//   //   counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+//   //   return;
+//   // }
+//   // auto data = (*this)[toBeDuplicated->it->key]->it->datum;
+//   // // auto data = data[dataIndex].datum;
+//   // insertByIndex(newKey, std::move(data));
+// }
 
 Table::Object::Ptr Table::operator[](const Table::KeyType &key) {
   auto it = keyMap.find(key);
@@ -54,23 +73,22 @@ Table::Object::Ptr Table::operator[](const Table::KeyType &key) {
         this);
   }
 }
- Table::Iterator Table::erase(Iterator pos) {
-    // Access the underlying DataIterator from Iterator
-    auto dataIt = pos.it;
+// Table::Iterator Table::erase(Iterator pos) {
+//   // Access the underlying DataIterator from Iterator
+//   auto dataIt = pos.it;
 
-    // Remove the key from keyMap
-    auto keyIt = keyMap.find(dataIt->key);
-    if (keyIt != keyMap.end()) {
-        keyMap.erase(keyIt);
-    }
+//   // Remove the key from keyMap
+//   auto keyIt = keyMap.find(dataIt->key);
+//   if (keyIt != keyMap.end()) {
+//     keyMap.erase(keyIt);
+//   }
 
-    // Erase the datum from data vector and get the new DataIterator
-    auto newDataIt = data.erase(dataIt);
+//   // Erase the datum from data vector and get the new DataIterator
+//   auto newDataIt = data.erase(dataIt);
 
-    // Return a new Iterator pointing to the next valid element
-    return Iterator(newDataIt, this);
-}
-
+//   // Return a new Iterator pointing to the next valid element
+//   return Iterator(newDataIt, this);
+// }
 
 std::ostream &operator<<(std::ostream &os, const Table &table) {
   const int width = 10;

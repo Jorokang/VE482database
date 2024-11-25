@@ -12,6 +12,9 @@ QueryResult::Ptr DuplicateQuery::execute() {
 
   try {
     Table &table = db[this->targetTable];
+    // cout << endl;
+    // cout << "Debug: Table before duplicate: " << endl;
+    // table.printData();
     auto result = initCondition(table);
     vector<Table::Iterator> toBeInserted;
     if (result.second) {
@@ -22,9 +25,12 @@ QueryResult::Ptr DuplicateQuery::execute() {
         }
       }
     }
-    for (auto it = toBeInserted.begin(); it != toBeInserted.end(); ++it) {
-      table.duplicateKey(*it, counter);
-    }
+    // for (auto it = toBeInserted.begin(); it != toBeInserted.end(); ++it) {
+    // table.duplicateKey(*it, counter);
+    // }
+    table.duplicateKey(toBeInserted, counter);
+    // cout << "Debug: Table after duplicate: " << endl;
+    // table.printData();
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,

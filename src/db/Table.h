@@ -61,7 +61,6 @@ private:
     Datum(const Datum &) = default;
     Datum &operator=(const Datum &) = default;
 
-
     explicit Datum(const SizeType &size) {
       datum = std::vector<ValueType>(size, ValueType());
     }
@@ -236,7 +235,9 @@ public:
 
     bool operator<(const IteratorImpl &other) { return this->it < other.it; }
 
-    bool operator>(const IteratorImpl &other)const { return this->it > other.it; }
+    bool operator>(const IteratorImpl &other) const {
+      return this->it > other.it;
+    }
   };
 
   typedef IteratorImpl<Object, decltype(data.begin())> Iterator;
@@ -296,7 +297,85 @@ public:
    * @param toBeDuplicated
    * @param counter
    */
-  void duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter);
+  // void duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter);
+  // void duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
+  // size_t &counter);
+  void duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
+                    size_t &counter) {
+    for (auto &it : toBeDuplicated) {
+      auto newKey = it->key() + "_copy";
+      if (keyMap.find(newKey) != keyMap.end()) {
+        counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+        continue;
+      }
+      auto data = (*this)[it->key()]->it->datum;
+      // std::cout << "Debug: Duplicating key " << it->key() << " to " <<
+      // newKey;
+      // // << std::endl;
+      // std::cout << " with data: ";
+      // // for (auto &value : data) {
+      // for (auto &value : (*this)[it->key()]->it->datum) {
+      //   std::cout << value << " ";
+      // }
+      // std::cout << std::endl;
+      insertByIndex(newKey, std::move(data));
+      // insertByIndex(newKey, std::vector(data));
+    }
+    // auto newKey = toBeDuplicated->it->key + "_copy";
+    // if (keyMap.find(newKey) != keyMap.end()) {
+    //   counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+    //   return;
+    // }
+    // auto data = (*this)[toBeDuplicated->it->key]->it->datum;
+    // // auto data = data[dataIndex].datum;
+    // insertByIndex(newKey, std::move(data));
+  }
+
+  void deleteByIndex(const KeyType &key) {
+    auto keyIt = keyMap.find(key);
+    std::cout << "Debug: Deleting key " << key << std::endl;
+    if (keyIt != keyMap.end()) {
+      keyMap.erase(keyIt);
+    }
+
+    // Find the keyIt position and erase it from the data vector
+    for (size_t i = 0; i < data.size(); ++i) {
+      if (data[i].key == key) {
+        std::cout << "With content: ";
+        for (auto &value : data[i].datum) {
+          std::cout << value << " ";
+        }
+        std::cout << std::endl;
+        std::swap(data[i], data.back());
+        data.pop_back();
+        break;
+      }
+    }
+  }
+
+  // void printData() {
+  //   // for (auto &datum : data) {
+  //   //   std::cout << "Key: " << datum.key << " ";
+  //   //   for (auto &value : datum.datum) {
+  //   //     std::cout << value << " ";
+  //   //   }
+  //   //   std::cout << std::endl;
+  //   // }
+  //   std::cout << "Debug: printing table by accessing (*this)[key]->it->datum"
+  //             << std::endl;
+  //   for (auto it = this->begin(); it != this->end(); ++it) {
+  //     std::cout << "Key: " << it->key() << " ";
+  //     // for (size_t i = 0; i < fields.size(); ++i) {
+  //     //   std::cout << it->get(i) << " ";
+  //     // }
+  //     for (auto &field : (*this)[it->key()]->it->datum) {
+  //       std::cout << field << " ";
+  //     }
+  //     std::cout << std::endl;
+  //   }
+  //   std::cout << "Debug: formal print of table" << (*this) << std::endl;
+  //   std::cout << std::endl;
+  // }
 
   /**
    * Access the value according to the key
@@ -346,7 +425,7 @@ public:
     return result;
   }
 
-  Iterator erase(Iterator pos);
+  // Iterator erase(Iterator pos);
   /**
    * Get a begin iterator similar to the standard iterator
    * @return begin iterator
