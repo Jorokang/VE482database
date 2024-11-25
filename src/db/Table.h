@@ -292,57 +292,26 @@ public:
   void insertByIndex(const KeyType &key, std::vector<ValueType> &&data);
 
   /**
-   * @brief Duplicate a key in the table
+   * @brief Duplicate a vector of keys
    *
    * @param toBeDuplicated
    * @param counter
    */
   void duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
-                    size_t &counter) {
-    for (auto &it : toBeDuplicated) {
-      auto newKey = it->key() + "_copy";
-      if (keyMap.find(newKey) != keyMap.end()) {
-        counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
-        continue;
-      }
-      auto data = it->it->datum;
-      // std::cout << "Debug: Duplicating key " << it->key() << " to " <<
-      // newKey;
-      // // << std::endl;
-      // std::cout << " with data: ";
-      // // for (auto &value : data) {
-      // for (auto &value : (*this)[it->key()]->it->datum) {
-      //   std::cout << value << " ";
-      // }
-      // std::cout << std::endl;
-      // insertByIndex(newKey, std::move(data));
-      insertByIndex(newKey, std::move(data));
-    }
-  }
+                    size_t &counter);
 
-  void deleteByIndex(const KeyType &key) {
-    auto keyIt = keyMap.find(key);
-    if (keyIt != keyMap.end()) {
-      keyMap.erase(keyIt);
-    }
+  /**
+   * @brief Delete a row of data by its key
+   *
+   * @param key
+   */
+  void deleteByIndex(const KeyType &key);
 
-    // Find the keyIt position and erase it from the data vector
-    for (auto it = data.begin(); it != data.end(); ++it) {
-      if (it->key == key) {
-        data.erase(it);
-        break;
-      }
-    }
-  }
-
+  /**
+   * @brief Print the table data for debugging
+   *
+   */
   // void printData() {
-  //   // for (auto &datum : data) {
-  //   //   std::cout << "Key: " << datum.key << " ";
-  //   //   for (auto &value : datum.datum) {
-  //   //     std::cout << value << " ";
-  //   //   }
-  //   //   std::cout << std::endl;
-  //   // }
   //   std::cout << "Debug: printing table by accessing (*this)[key]->it->datum"
   //             << std::endl;
   //   for (auto it = this->begin(); it != this->end(); ++it) {

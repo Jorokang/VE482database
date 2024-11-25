@@ -25,9 +25,6 @@ QueryResult::Ptr DuplicateQuery::execute() {
         }
       }
     }
-    // for (auto it = toBeInserted.begin(); it != toBeInserted.end(); ++it) {
-    // table.duplicateKey(*it, counter);
-    // }
     table.duplicateKey(toBeInserted, counter);
     // cout << "Debug: Table after duplicate: " << endl;
     // table.printData();
