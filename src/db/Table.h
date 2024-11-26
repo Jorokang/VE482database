@@ -61,7 +61,6 @@ private:
     Datum(const Datum &) = default;
     Datum &operator=(const Datum &) = default;
 
-
     explicit Datum(const SizeType &size) {
       datum = std::vector<ValueType>(size, ValueType());
     }
@@ -236,7 +235,9 @@ public:
 
     bool operator<(const IteratorImpl &other) { return this->it < other.it; }
 
-    bool operator>(const IteratorImpl &other)const { return this->it > other.it; }
+    bool operator>(const IteratorImpl &other) const {
+      return this->it > other.it;
+    }
   };
 
   typedef IteratorImpl<Object, decltype(data.begin())> Iterator;
@@ -291,12 +292,41 @@ public:
   void insertByIndex(const KeyType &key, std::vector<ValueType> &&data);
 
   /**
-   * @brief Duplicate a key in the table
+   * @brief Duplicate a vector of keys
    *
    * @param toBeDuplicated
    * @param counter
    */
-  void duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter);
+  void duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
+                    size_t &counter);
+
+  /**
+   * @brief Delete a row of data by its key
+   *
+   * @param key
+   */
+  void deleteByIndex(const KeyType &key);
+
+  /**
+   * @brief Print the table data for debugging
+   *
+   */
+  // void printData() {
+  //   std::cout << "Debug: printing table by accessing (*this)[key]->it->datum"
+  //             << std::endl;
+  //   for (auto it = this->begin(); it != this->end(); ++it) {
+  //     std::cout << "Key: " << it->key() << " ";
+  //     // for (size_t i = 0; i < fields.size(); ++i) {
+  //     //   std::cout << it->get(i) << " ";
+  //     // }
+  //     for (auto &field : (*this)[it->key()]->it->datum) {
+  //       std::cout << field << " ";
+  //     }
+  //     std::cout << std::endl;
+  //   }
+  //   std::cout << "Debug: formal print of table" << (*this) << std::endl;
+  //   std::cout << std::endl;
+  // }
 
   /**
    * Access the value according to the key
@@ -346,7 +376,7 @@ public:
     return result;
   }
 
-  Iterator erase(Iterator pos);
+  // Iterator erase(Iterator pos);
   /**
    * Get a begin iterator similar to the standard iterator
    * @return begin iterator

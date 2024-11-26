@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "Database.h"
 
@@ -32,14 +33,32 @@ void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   this->data.emplace_back(key, data);
 }
 
-void Table::duplicateKey(Table::Iterator &toBeDuplicated, size_t &counter) {
-  auto newKey = toBeDuplicated->it->key + "_copy";
-  if (keyMap.find(newKey) != keyMap.end()) {
-    counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
-    return;
+void Table::duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
+                         size_t &counter) {
+  for (auto &it : toBeDuplicated) {
+    auto newKey = it->key() + "_copy";
+    if (keyMap.find(newKey) != keyMap.end()) {
+      counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+      continue;
+    }
+    auto data = it->it->datum;
+    insertByIndex(newKey, std::move(data));
   }
-  auto data = (*this)[toBeDuplicated->it->key]->it->datum;
-  insertByIndex(newKey, std::move(data));
+}
+
+void Table::deleteByIndex(const KeyType &key) {
+  auto keyIt = keyMap.find(key);
+  if (keyIt != keyMap.end()) {
+    keyMap.erase(keyIt);
+  }
+
+  // Find the keyIt position and erase it from the data vector
+  for (auto it = data.begin(); it != data.end(); ++it) {
+    if (it->key == key) {
+      data.erase(it);
+      break;
+    }
+  }
 }
 
 Table::Object::Ptr Table::operator[](const Table::KeyType &key) {
@@ -54,23 +73,6 @@ Table::Object::Ptr Table::operator[](const Table::KeyType &key) {
         this);
   }
 }
- Table::Iterator Table::erase(Iterator pos) {
-    // Access the underlying DataIterator from Iterator
-    auto dataIt = pos.it;
-
-    // Remove the key from keyMap
-    auto keyIt = keyMap.find(dataIt->key);
-    if (keyIt != keyMap.end()) {
-        keyMap.erase(keyIt);
-    }
-
-    // Erase the datum from data vector and get the new DataIterator
-    auto newDataIt = data.erase(dataIt);
-
-    // Return a new Iterator pointing to the next valid element
-    return Iterator(newDataIt, this);
-}
-
 
 std::ostream &operator<<(std::ostream &os, const Table &table) {
   const int width = 10;
