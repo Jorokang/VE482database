@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "Database.h"
 
@@ -24,12 +25,40 @@ Table::getFieldIndex(const Table::FieldNameType &field) const {
 
 void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   if (this->keyMap.find(key) != this->keyMap.end()) {
-    std::string const err = "In Table \"" + this->tableName + "\" : Key \"" + key +
-                      "\" already exists!";
+    std::string const err = "In Table \"" + this->tableName + "\" : Key \"" +
+                            key + "\" already exists!";
     throw ConflictingKey(err);
   }
   this->keyMap.emplace(key, this->data.size());
   this->data.emplace_back(key, data);
+}
+
+void Table::duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
+                         size_t &counter) {
+  for (auto &it : toBeDuplicated) {
+    auto newKey = it->key() + "_copy";
+    if (keyMap.find(newKey) != keyMap.end()) {
+      counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
+      continue;
+    }
+    auto data = it->it->datum;
+    insertByIndex(newKey, std::move(data));
+  }
+}
+
+void Table::deleteByIndex(const KeyType &key) {
+  auto keyIt = keyMap.find(key);
+  if (keyIt != keyMap.end()) {
+    keyMap.erase(keyIt);
+  }
+
+  // Find the keyIt position and erase it from the data vector
+  for (auto it = data.begin(); it != data.end(); ++it) {
+    if (it->key == key) {
+      data.erase(it);
+      break;
+    }
+  }
 }
 
 Table::Object::Ptr Table::operator[](const Table::KeyType &key) {

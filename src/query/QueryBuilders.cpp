@@ -8,15 +8,22 @@
 #include <iostream>
 
 #include "../db/Database.h"
+#include "data/AddQuery.h"
+#include "data/DuplicateQuery.h"
+#include "data/CountQuery.h"
 #include "data/InsertQuery.h"
+#include "data/SelectQuery.h"
+#include "data/DeleteQuery.h"
 #include "data/UpdateQuery.h"
 #include "data/MaxQuery.h"
 #include "data/MinQuery.h"
-#include "data/SumQuery.h"
-#include "data/AddQuery.h"
 #include "data/SubQuery.h"
+#include "data/SumQuery.h"
 #include "data/SwapQuery.h"
-#include "management/TruncateTableQuery.h"
+#include "data/UpdateQuery.h"
+#include "management/CopyTableQuery.h"
+#include "data/UpdateQuery.h"
+#include "management/CopyTableQuery.h"
 #include "management/DropTableQuery.h"
 #include "management/DumpTableQuery.h"
 #include "management/CopyTableQuery.h"
@@ -24,6 +31,8 @@
 #include "management/LoadTableQuery.h"
 #include "management/PrintTableQuery.h"
 #include "management/QuitQuery.h"
+#include "management/TruncateTableQuery.h"
+#include "management/TruncateTableQuery.h"
 
 // Prints out debugging information.
 // Does no real work
@@ -155,21 +164,16 @@ Query::Ptr ComplexQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
     return std::make_unique<UpdateQuery>(this->targetTable, this->operandToken,
                                          this->conditionToken);
   if (operation == "SELECT")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<SelectQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<SelectQuery>(
+          this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "DELETE")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<DeleteQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<DeleteQuery>(
+          this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "DUPLICATE")
-    return std::make_unique<NopQuery>(); // Not implemented
-  /*return std::make_unique<DuplicateQuery>(
-          this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<DuplicateQuery>(
+          this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "COUNT")
-    return std::make_unique<NopQuery>(); // Not implemented
-                                         /*return std::make_unique<CountQuery>(
-                                                 this->targetTable, this->operandToken, this->conditionToken);*/
+    return std::make_unique<CountQuery>(this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "SUM")
     return std::make_unique<SumQuery>(this->targetTable, this->operandToken, this->conditionToken);
   if (operation == "MIN")

@@ -78,7 +78,7 @@ public:
   bool display() override { return false; }
 
   explicit SuccessMsgResult(const int number) {
-    this->msg = R"(ANSWER = "?".)"_f % number;
+    this->msg = R"(ANSWER = ?)"_f % number;
   }
 
   explicit SuccessMsgResult(std::vector<int> results) {
@@ -94,6 +94,8 @@ public:
   explicit SuccessMsgResult(const char *qname) {
     this->msg = R"(Query "?" success.)"_f % qname;
   }
+
+  explicit SuccessMsgResult(const std::string &msg) { this->msg = msg; }
 
   SuccessMsgResult(const char *qname, const std::string &msg) {
     this->msg = R"(Query "?" success : ?)"_f % qname % msg;
@@ -124,4 +126,32 @@ protected:
   }
 };
 
+class SelectQueryResult : public SucceededQueryResult {
+private:
+  size_t recordCount;
+  std::vector<std::vector<std::string>> records;
+
+public:
+
+  SelectQueryResult(size_t recordCount, std::vector<std::vector<std::string>> records)
+      : recordCount(recordCount), records(std::move(records)) {}
+
+  size_t getRecordCount() const { return recordCount; }
+  const std::vector<std::vector<std::string>>& getRecords() const { return records; }
+
+  bool display() override { return true; }
+
+protected:
+
+  std::ostream &output(std::ostream &os) const override {
+    os << "Query returned " << recordCount << " record(s):\n";
+    for (const auto& record : records) {
+      for (const auto& field : record) {
+        os << field << " ";
+      }
+      os << "\n";
+    }
+    return os;
+  }
+};
 #endif // PROJECT_QUERYRESULT_H
