@@ -24,9 +24,11 @@ QueryResult::Ptr AddQuery::execute(){
             for (auto it = table.begin(); it != table.end(); ++it){
                 if (this->evalCondition(*it)){
                     auto &dest = (*it)[this->destFieldId];
+                    auto sum = 0;
                     for (auto &fieldId : this->fieldIds){
-                        dest += (*it)[fieldId];
+                        sum += (*it)[fieldId];
                     }
+                    dest = sum;
                     ++counter;
                 }
             }
