@@ -46,7 +46,6 @@ QueryResult::Ptr SumQuery::execute() {
     try {
         auto &db = Database::getInstance();
         auto &table = db[this->targetTable];
-        bool found = false;
         std::mutex mut;
         std::pair<std::string, bool> condition = initCondition(table);
         std::vector<int> sum_values(this->operands.size(), 0);
@@ -55,7 +54,6 @@ QueryResult::Ptr SumQuery::execute() {
             if (condition.second) {
                 for (auto row = table.begin(); row != table.end(); row++) {
                     if (this->evalCondition(*row)) {
-                        found = true;
                         for (size_t i = 0; i < this->operands.size(); ++i) {
                             auto value = (*row)[this->operands[i]];
                             sum_values[i] += value;
@@ -63,11 +61,7 @@ QueryResult::Ptr SumQuery::execute() {
                     }
                 }
             }
-            if (found) {
-                return std::make_unique<SuccessMsgResult>(sum_values);
-            } else {
-                return std::make_unique<NullQueryResult>();
-            }
+            return std::make_unique<SuccessMsgResult>(sum_values);
         } else {
 
             thread_num = std::min(thread_num, (unsigned int)(table.size() / 2000 + 1));
