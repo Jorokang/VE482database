@@ -1,6 +1,10 @@
 // changelog for features, bugs and other changes.
 
-
+11/19: zlk add TruncateTableQuery feature.
+11/19: zlk add CopyTableQuery feature.
+11/19: zlk add MaxQuery feature of single thread version.
+11/19: zlk add SumQuery feature of single thread version.
+11/19: zlk add MinQuery feature of single thread version.
 11/21: zcy add thread detection feature.
 11/21: zcy fix missing header in QueryBuilders.cpp.
 11/22: zcy report bug with RecordCountResult.
@@ -9,4 +13,8 @@
 11/22: zcy add SwapQuery feature.
 11/23: zyh add CountQuery feature.
 11/23: zyh add SelectQuery feature.
+11/23: zlk add MaxQuery feature of multiple thread version.
+11/23: zlk add SumQuery feature of multiple thread version.
+11/23: zlk add MinQuery feature of multiple thread version.
 11/24: zyh add DuplicateQuery feature.
+
