@@ -3,6 +3,7 @@
 #include "../../db/Table.h"
 #include "../QueryResult.h"
 #include "../../utils/uexception.h"
+#include <iostream>
 
 /**********************************************/
 /* Define Global Variables */
@@ -14,7 +15,6 @@ std::string SumQuery::toString() {
 }
 
 QueryResult::Ptr SumQuery::execute() {
-
     if (this->operands.empty()) {
         return std::make_unique<ErrorMsgResult>(
             qname, this->targetTable.c_str(),
@@ -25,13 +25,11 @@ QueryResult::Ptr SumQuery::execute() {
         auto &db = Database::getInstance();
         auto &table = db[this->targetTable];
         auto condition = initCondition(table);
-        bool found = false;
 
         std::vector<int> sumValues(this->operands.size(), 0);
         if (condition.second) {
             for (auto row = table.begin(); row != table.end(); ++row) {
                 if (this->evalCondition(*row)) {
-                    found = true;
                     for (size_t i = 0; i < this->operands.size(); ++i) {
                         auto value = (*row)[this->operands[i]];
                         sumValues[i] += value;
@@ -40,11 +38,7 @@ QueryResult::Ptr SumQuery::execute() {
             }
         }
 
-        if (found) {
-            return std::make_unique<SuccessMsgResult>(sumValues);
-        } else {
-            return std::make_unique<NullQueryResult>();
-        }
+        return std::make_unique<SuccessMsgResult>(sumValues);
 
     } catch (const TableNameNotFound &e) {
         return std::make_unique<ErrorMsgResult>(qname, this->targetTable, "No such table.");
