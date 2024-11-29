@@ -43,8 +43,9 @@ void Table::duplicateKey(std::vector<KeyType> &keys) {
 
 void Table::deleteByIndex(const KeyType &key) {
   size_t const index = (size_t)(((*this)[key])->it - data.begin());
-  std::swap(data[index], data.back());
-  keyMap.erase(data.back().key);
+  keyMap[data.back().key] = index;
+  keyMap.erase(key);
+  data[index] = data.back();
   data.pop_back();
 }
 
