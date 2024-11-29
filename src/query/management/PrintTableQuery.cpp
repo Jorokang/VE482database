@@ -9,7 +9,7 @@
 #include "../../db/Database.h"
 #include "PrintTableQuery.h"
 
-constexpr const char *PrintTableQuery::qname;
+// constexpr const char *PrintTableQuery::qname;
 
 QueryResult::Ptr PrintTableQuery::execute() {
   // using namespace std;

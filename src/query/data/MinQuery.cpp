@@ -8,7 +8,7 @@
 #include "../QueryResult.h"
 #include "MinQuery.h"
 
-constexpr const char *MinQuery::qname;
+// constexpr const char *MinQuery::qname;
 
 QueryResult::Ptr MinQuery::execute() {
 

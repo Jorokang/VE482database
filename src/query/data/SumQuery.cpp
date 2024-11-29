@@ -10,7 +10,7 @@
 
 /**********************************************/
 /* Define Global Variables */
-constexpr const char *SumQuery::qname;
+// constexpr const char *SumQuery::qname;
 /**********************************************/
 
 std::string SumQuery::toString() {

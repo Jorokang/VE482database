@@ -11,8 +11,8 @@
 
 #include "Database.h"
 
-constexpr const Table::ValueType Table::ValueTypeMax;
-constexpr const Table::ValueType Table::ValueTypeMin;
+// constexpr const Table::ValueType Table::ValueTypeMax;
+// constexpr const Table::ValueType Table::ValueTypeMin;
 
 Table::FieldIndex
 Table::getFieldIndex(const Table::FieldNameType &field) const {

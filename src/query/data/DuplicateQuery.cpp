@@ -6,7 +6,7 @@
 #include "../../db/Database.h"
 #include "DuplicateQuery.h"
 
-constexpr const char *DuplicateQuery::qname;
+// constexpr const char *DuplicateQuery::qname;
 
 QueryResult::Ptr DuplicateQuery::execute() {
   using std::exception;

@@ -8,7 +8,7 @@
 #include "../../db/Database.h"
 #include "QuitQuery.h"
 
-constexpr const char *QuitQuery::qname;
+// constexpr const char *QuitQuery::qname;
 
 std::string QuitQuery::toString() { return "QUERY = Quit"; }
 

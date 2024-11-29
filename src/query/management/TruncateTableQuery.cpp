@@ -6,7 +6,7 @@
 #include "../../utils/uexception.h"
 #include "TruncateTableQuery.h"
 
-constexpr const char *TruncateTableQuery::qname;
+// constexpr const char *TruncateTableQuery::qname;
 
 QueryResult::Ptr TruncateTableQuery::execute() {
   try {

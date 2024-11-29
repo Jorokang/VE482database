@@ -9,7 +9,7 @@
 #include "../../db/Database.h"
 #include "DumpTableQuery.h"
 
-constexpr const char *DumpTableQuery::qname;
+// constexpr const char *DumpTableQuery::qname;
 
 QueryResult::Ptr DumpTableQuery::execute() {
   using std::exception;

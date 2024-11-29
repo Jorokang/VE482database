@@ -9,7 +9,7 @@
 #include "../../db/Database.h"
 #include "SelectQuery.h"
 
-constexpr const char *SelectQuery::qname;
+// constexpr const char *SelectQuery::qname;
 
 QueryResult::Ptr SelectQuery::execute() {
   using std::exception;

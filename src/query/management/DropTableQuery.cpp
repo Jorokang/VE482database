@@ -8,7 +8,7 @@
 #include "../../db/Database.h"
 #include "DropTableQuery.h"
 
-constexpr const char *DropTableQuery::qname;
+// constexpr const char *DropTableQuery::qname;
 
 QueryResult::Ptr DropTableQuery::execute() {
   using std::exception;

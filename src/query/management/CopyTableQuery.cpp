@@ -8,7 +8,7 @@
 #include "../QueryResult.h"
 #include "CopyTableQuery.h"
 
-constexpr const char *CopyTableQuery::qname;
+// constexpr const char *CopyTableQuery::qname;
 
 QueryResult::Ptr CopyTableQuery::execute() {
   try {

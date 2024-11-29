@@ -10,7 +10,7 @@
 
 /**********************************************/
 /* Define Global Variables */
-constexpr const char *MaxQuery::qname;
+// constexpr const char *MaxQuery::qname;
 /**********************************************/
 
 std::string MaxQuery::toString() {

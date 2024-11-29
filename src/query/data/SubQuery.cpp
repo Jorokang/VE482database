@@ -5,7 +5,7 @@
 #include "../../db/Database.h"
 #include "SubQuery.h"
 
-constexpr const char *SubQuery::qname;
+// constexpr const char *SubQuery::qname;
 
 QueryResult::Ptr SubQuery::execute() {
   // using namespace std;

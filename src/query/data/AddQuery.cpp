@@ -6,7 +6,7 @@
 #include "../../db/Database.h"
 #include "AddQuery.h"
 
-constexpr const char *AddQuery::qname;
+//// constexpr const char *AddQuery::qname;
 
 QueryResult::Ptr AddQuery::execute() {
   // using namespace std;

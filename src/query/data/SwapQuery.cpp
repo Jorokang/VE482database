@@ -6,7 +6,7 @@
 #include "../../db/Database.h"
 #include "SwapQuery.h"
 
-constexpr const char *SwapQuery::qname;
+// constexpr const char *SwapQuery::qname;
 
 QueryResult::Ptr SwapQuery::execute() {
   using std::exception;

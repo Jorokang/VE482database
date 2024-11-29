@@ -15,7 +15,7 @@
 #include "../../db/Database.h"
 #include "../QueryResult.h"
 
-constexpr const char *InsertQuery::qname;
+// constexpr const char *InsertQuery::qname;
 
 QueryResult::Ptr InsertQuery::execute() {
   using std::exception;

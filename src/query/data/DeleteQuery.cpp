@@ -6,7 +6,7 @@
 #include "../QueryResult.h"
 #include "DeleteQuery.h"
 
-constexpr const char *DeleteQuery::qname;
+// constexpr const char *DeleteQuery::qname;
 
 QueryResult::Ptr DeleteQuery::execute() {
   // using namespace std;

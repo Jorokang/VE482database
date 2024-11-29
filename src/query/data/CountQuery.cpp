@@ -5,7 +5,7 @@
 #include "../../db/Database.h"
 #include "CountQuery.h"
 
-constexpr const char *CountQuery::qname;
+// constexpr const char *CountQuery::qname;
 
 QueryResult::Ptr CountQuery::execute() {
   // using namespace std;

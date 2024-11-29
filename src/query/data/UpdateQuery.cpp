@@ -8,7 +8,7 @@
 #include "../../db/Database.h"
 #include "UpdateQuery.h"
 
-constexpr const char *UpdateQuery::qname;
+// constexpr const char *UpdateQuery::qname;
 
 QueryResult::Ptr UpdateQuery::execute() {
   // using namespace std;
