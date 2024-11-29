@@ -1,9 +1,12 @@
-#include "CopyTableQuery.h"
+#include <limits>
+#include <memory>
+#include <string>
+
 #include "../../db/Database.h"
 #include "../../db/Table.h"
 #include "../../utils/uexception.h"
 #include "../QueryResult.h"
-#include <limits>
+#include "CopyTableQuery.h"
 
 constexpr const char *CopyTableQuery::qname;
 

@@ -5,6 +5,8 @@
 #ifndef PROJECT_DUMPTABLEQUERY_H
 #define PROJECT_DUMPTABLEQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 
 class DumpTableQuery : public Query {

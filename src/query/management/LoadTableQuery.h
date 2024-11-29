@@ -5,6 +5,8 @@
 #ifndef PROJECT_LOADTABLEQUERY_H
 #define PROJECT_LOADTABLEQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 
 class LoadTableQuery : public Query {

@@ -1,7 +1,10 @@
-#include "TruncateTableQuery.h"
+#include <limits>
+#include <memory>
+#include <string>
+
 #include "../../db/Database.h"
 #include "../../utils/uexception.h"
-#include <limits>
+#include "TruncateTableQuery.h"
 
 constexpr const char *TruncateTableQuery::qname;
 

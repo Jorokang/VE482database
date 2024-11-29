@@ -1,6 +1,8 @@
 #ifndef TRUNCATETABLEQUERY_H
 #define TRUNCATETABLEQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 
 class TruncateTableQuery : public Query {

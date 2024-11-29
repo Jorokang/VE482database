@@ -2,16 +2,21 @@
 // Created by liu on 18-10-25.
 //
 
-#include "PrintTableQuery.h"
-
 #include <iostream>
+#include <memory>
+#include <string>
 
 #include "../../db/Database.h"
+#include "PrintTableQuery.h"
 
 constexpr const char *PrintTableQuery::qname;
 
 QueryResult::Ptr PrintTableQuery::execute() {
-  using namespace std;
+  // using namespace std;
+  using std::cout;
+  using std::endl;
+  using std::make_unique;
+
   Database &db = Database::getInstance();
   try {
     auto &table = db[this->targetTable];
@@ -22,7 +27,7 @@ QueryResult::Ptr PrintTableQuery::execute() {
     return make_unique<SuccessMsgResult>(qname, this->targetTable);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   }
 }
 

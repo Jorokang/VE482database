@@ -2,11 +2,12 @@
 // Created by liu on 18-10-25.
 //
 
-#include "LoadTableQuery.h"
-
 #include <fstream>
+#include <memory>
+#include <string>
 
 #include "../../db/Database.h"
+#include "LoadTableQuery.h"
 
 constexpr const char *LoadTableQuery::qname;
 

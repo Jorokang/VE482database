@@ -2,9 +2,11 @@
 // Created by liu on 18-10-25.
 //
 
-#include "DropTableQuery.h"
+#include <memory>
+#include <string>
 
 #include "../../db/Database.h"
+#include "DropTableQuery.h"
 
 constexpr const char *DropTableQuery::qname;
 
@@ -15,7 +17,7 @@ QueryResult::Ptr DropTableQuery::execute() {
     db.dropTable(this->targetTable);
     return make_unique<SuccessMsgResult>(qname);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, targetTable, "No such table."s);
+    return make_unique<ErrorMsgResult>(qname, targetTable, "No such table.");
   } catch (const exception &e) {
     return make_unique<ErrorMsgResult>(qname, e.what());
   }
