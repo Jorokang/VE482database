@@ -41,9 +41,7 @@ QueryResult::Ptr SelectQuery::execute() {
     for (auto it = selected.begin(); it != selected.end(); ++it) {
       os << "( " << it->first << " ";
       os << it->second << ")";
-      if (it + 1 != selected.end()) {
-        os << "\n";
-      }
+      os << "\n";
     }
 
     return make_unique<SuccessMsgResult>(os.str(), true);

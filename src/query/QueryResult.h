@@ -99,6 +99,7 @@ public:
 
   explicit SuccessMsgResult(const std::string &msg, bool to_display) { 
     is_display = to_display;
+    newline = false;
     this->msg = msg; 
     }
 
@@ -113,10 +114,14 @@ public:
 
 private:
   bool is_display = false;
+  bool newline = true;
 
 protected:
   std::ostream &output(std::ostream &os) const override {
-    return os << msg << "\n";
+    if (newline)
+      return os << msg << "\n";
+    else
+      return os << msg;
   }
 };
 
