@@ -295,10 +295,8 @@ public:
    * @brief Duplicate a vector of keys
    *
    * @param toBeDuplicated
-   * @param counter
    */
-  void duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
-                    size_t &counter);
+  void duplicateKey(std::vector<KeyType> &keys);
 
   /**
    * @brief Delete a row of data by its key
@@ -306,6 +304,17 @@ public:
    * @param key
    */
   void deleteByIndex(const KeyType &key);
+
+  /**
+   * @brief Check if the key is duplicated
+   *
+   * @param key
+   * @return true if the key is not duplicated
+   */
+  bool checkNotDuplicate(KeyType key) {
+    key += "_copy";
+    return keyMap.find(key) == keyMap.end();
+  }
 
   /**
    * @brief Print the table data for debugging
@@ -316,9 +325,6 @@ public:
   //             << std::endl;
   //   for (auto it = this->begin(); it != this->end(); ++it) {
   //     std::cout << "Key: " << it->key() << " ";
-  //     // for (size_t i = 0; i < fields.size(); ++i) {
-  //     //   std::cout << it->get(i) << " ";
-  //     // }
   //     for (auto &field : (*this)[it->key()]->it->datum) {
   //       std::cout << field << " ";
   //     }

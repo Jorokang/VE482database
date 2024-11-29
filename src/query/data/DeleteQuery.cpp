@@ -6,21 +6,16 @@ constexpr const char *DeleteQuery::qname;
 
 QueryResult::Ptr DeleteQuery::execute() {
   using namespace std;
-
   Database &db = Database::getInstance();
   Table::SizeType deletedCount = 0;
 
   try {
     auto &table = db[this->targetTable];
 
-    // cout << endl;
-    // cout << "Debug: Table before delete: " << endl;
-    // table.printData();
     auto result = initCondition(table);
     if (result.second) {
       for (auto it = table.begin(); it != table.end();) {
         if (this->evalCondition(*it)) {
-          // it = table.erase(it);
           table.deleteByIndex(it->key());
           ++deletedCount;
         } else {
@@ -28,10 +23,6 @@ QueryResult::Ptr DeleteQuery::execute() {
         }
       }
     }
-    // cout << endl;
-    // cout << "Debug: Table after delete: " << endl;
-    // table.printData();
-
     return make_unique<RecordCountResult>(deletedCount);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,

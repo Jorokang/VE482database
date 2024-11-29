@@ -33,32 +33,19 @@ void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   this->data.emplace_back(key, data);
 }
 
-void Table::duplicateKey(std::vector<Table::Iterator> &toBeDuplicated,
-                         size_t &counter) {
-  for (auto &it : toBeDuplicated) {
-    auto newKey = it->key() + "_copy";
-    if (keyMap.find(newKey) != keyMap.end()) {
-      counter = (counter > 0) ? counter - 1 : 0; // ignore duplicated copies
-      continue;
-    }
-    auto data = it->it->datum;
+void Table::duplicateKey(std::vector<KeyType> &keys) {
+  for (auto &key : keys) {
+    auto newKey = key + "_copy";
+    auto data = (*this)[key]->it->datum;
     insertByIndex(newKey, std::move(data));
   }
 }
 
 void Table::deleteByIndex(const KeyType &key) {
-  auto keyIt = keyMap.find(key);
-  if (keyIt != keyMap.end()) {
-    keyMap.erase(keyIt);
-  }
-
-  // Find the keyIt position and erase it from the data vector
-  for (auto it = data.begin(); it != data.end(); ++it) {
-    if (it->key == key) {
-      data.erase(it);
-      break;
-    }
-  }
+  size_t const index = (size_t)(((*this)[key])->it - data.begin());
+  std::swap(data[index], data.back());
+  keyMap.erase(data.back().key);
+  data.pop_back();
 }
 
 Table::Object::Ptr Table::operator[](const Table::KeyType &key) {

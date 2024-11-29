@@ -12,22 +12,17 @@ QueryResult::Ptr DuplicateQuery::execute() {
 
   try {
     Table &table = db[this->targetTable];
-    // cout << endl;
-    // cout << "Debug: Table before duplicate: " << endl;
-    // table.printData();
     auto result = initCondition(table);
-    vector<Table::Iterator> toBeInserted;
+    vector<Table::KeyType> toBeInserted;
     if (result.second) {
       for (auto it = table.begin(); it != table.end(); ++it) {
-        if (this->evalCondition(*it)) {
-          toBeInserted.push_back(it);
+        if (this->evalCondition(*it) && table.checkNotDuplicate(it->key())) {
+          toBeInserted.push_back(it->key());
           counter++;
         }
       }
     }
-    table.duplicateKey(toBeInserted, counter);
-    // cout << "Debug: Table after duplicate: " << endl;
-    // table.printData();
+    table.duplicateKey(toBeInserted);
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
