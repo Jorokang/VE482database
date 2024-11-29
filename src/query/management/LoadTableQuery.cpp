@@ -12,7 +12,10 @@
 constexpr const char *LoadTableQuery::qname;
 
 QueryResult::Ptr LoadTableQuery::execute() {
-  using namespace std;
+  using std::exception;
+  using std::ifstream;
+  using std::make_unique;
+
   Database &db = Database::getInstance();
   try {
     ifstream infile(this->fileName);

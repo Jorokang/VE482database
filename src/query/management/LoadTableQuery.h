@@ -6,6 +6,7 @@
 #define PROJECT_LOADTABLEQUERY_H
 
 #include <string>
+#include <utility>
 
 #include "../Query.h"
 

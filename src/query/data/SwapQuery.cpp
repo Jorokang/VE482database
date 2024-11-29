@@ -1,5 +1,7 @@
 #include <memory>
 #include <stdexcept>
+#include <string>
+#include <utility>
 
 #include "../../db/Database.h"
 #include "SwapQuery.h"
@@ -7,7 +9,6 @@
 constexpr const char *SwapQuery::qname;
 
 QueryResult::Ptr SwapQuery::execute() {
-  // using namespace std;
   using std::exception;
   using std::invalid_argument;
   using std::make_unique;

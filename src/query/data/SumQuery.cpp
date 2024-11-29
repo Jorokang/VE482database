@@ -1,9 +1,12 @@
-#include "SumQuery.h"
+#include <iostream>
+#include <memory>
+#include <string>
+
 #include "../../db/Database.h"
 #include "../../db/Table.h"
 #include "../../utils/uexception.h"
 #include "../QueryResult.h"
-#include <iostream>
+#include "SumQuery.h"
 
 /**********************************************/
 /* Define Global Variables */

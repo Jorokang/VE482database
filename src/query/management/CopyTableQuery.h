@@ -2,6 +2,7 @@
 #define COPYTABLEQUERY_H
 
 #include <string>
+#include <utility>
 
 #include "../Query.h"
 

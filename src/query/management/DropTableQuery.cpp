@@ -11,7 +11,9 @@
 constexpr const char *DropTableQuery::qname;
 
 QueryResult::Ptr DropTableQuery::execute() {
-  using namespace std;
+  using std::exception;
+  using std::make_unique;
+
   Database &db = Database::getInstance();
   try {
     db.dropTable(this->targetTable);

@@ -1,10 +1,11 @@
 #ifndef SUMQUERY_H
 #define SUMQUERY_H
 
-#include "../Query.h"
-#include "../QueryResult.h"
 #include <string>
 #include <vector>
+
+#include "../Query.h"
+#include "../QueryResult.h"
 
 class SumQuery : public ComplexQuery {
   static constexpr const char *qname = "SUM";
