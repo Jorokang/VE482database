@@ -20,12 +20,11 @@ void ThreadTaskSub(int ThreadInd,
         for (auto it = head; it != tail; ++it){
             if (query.evalCondition(*it)){
                 auto &dest = (*it)[query.getDestFieldId()];
-                dest = (*it)[query.getSrcFieldId()];
                 auto sum = 0;
                 for (auto &fieldId : query.getFieldIds()){
                     sum += (*it)[fieldId];
                 }
-                dest -= sum;
+                dest = (*it)[query.getSrcFieldId()] - sum;
                 ++local_counter;
             }
         }
@@ -95,12 +94,11 @@ QueryResult::Ptr SubQuery::execute(){
                     for (auto it = table.begin(); it != table.end(); ++it){
                         if (this->evalCondition(*it)){
                             auto &dest = (*it)[this->destFieldId];
-                            dest = (*it)[this->srcFieldId];
                             auto sum = 0;
                             for (auto &fieldId : this->fieldIds){
                                 sum += (*it)[fieldId];
                             }
-                            dest -= sum;
+                            dest = (*it)[this->srcFieldId] - sum;
                             ++counter;
                         }
                     }
