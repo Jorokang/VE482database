@@ -1,9 +1,12 @@
-#include "MaxQuery.h"
+#include <limits>
+#include <memory>
+#include <vector>
+
 #include "../../db/Database.h"
 #include "../../db/Table.h"
 #include "../../utils/uexception.h"
 #include "../QueryResult.h"
-#include <limits>
+#include "MaxQuery.h"
 
 /**********************************************/
 /* Define Global Variables */

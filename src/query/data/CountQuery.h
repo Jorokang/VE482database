@@ -1,9 +1,10 @@
 #ifndef COUNTQUERY_H
 #define COUNTQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 #include "../QueryResult.h"
-#include <string>
 
 class CountQuery : public ComplexQuery {
   static constexpr const char *qname = "COUNT";

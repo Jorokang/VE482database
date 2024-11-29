@@ -1,9 +1,10 @@
 #ifndef MAX_QUERY_H
 #define MAX_QUERY_H
 
+#include <string>
+
 #include "../Query.h"
 #include "../QueryResult.h"
-#include <string>
 
 class MaxQuery : public ComplexQuery {
 public:

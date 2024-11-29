@@ -1,9 +1,10 @@
 #ifndef DUPLICATEQUERY_H
 #define DUPLICATEQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 #include "../QueryResult.h"
-#include <string>
 
 class DuplicateQuery : public ComplexQuery {
   static constexpr const char *qname = "DUPLICATE";

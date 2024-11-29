@@ -1,10 +1,17 @@
-#include "SwapQuery.h"
+#include <memory>
+#include <stdexcept>
+
 #include "../../db/Database.h"
+#include "SwapQuery.h"
 
 constexpr const char *SwapQuery::qname;
 
 QueryResult::Ptr SwapQuery::execute() {
-  using namespace std;
+  // using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+
   auto opcount = this->operands.size();
   if (opcount != 2)
     return std::make_unique<ErrorMsgResult>(
@@ -30,7 +37,7 @@ QueryResult::Ptr SwapQuery::execute() {
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

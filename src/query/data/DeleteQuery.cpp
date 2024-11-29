@@ -1,11 +1,18 @@
-#include "DeleteQuery.h"
+#include <memory>
+#include <string>
+
 #include "../../db/Database.h"
 #include "../../db/Table.h"
 #include "../QueryResult.h"
+#include "DeleteQuery.h"
+
 constexpr const char *DeleteQuery::qname;
 
 QueryResult::Ptr DeleteQuery::execute() {
-  using namespace std;
+  // using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
   Database &db = Database::getInstance();
   Table::SizeType deletedCount = 0;
 
@@ -26,7 +33,7 @@ QueryResult::Ptr DeleteQuery::execute() {
     return make_unique<RecordCountResult>(deletedCount);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

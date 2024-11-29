@@ -2,14 +2,20 @@
 // Created by liu on 18-10-25.
 //
 
-#include "UpdateQuery.h"
+#include <memory>
+#include <stdexcept>
 
 #include "../../db/Database.h"
+#include "UpdateQuery.h"
 
 constexpr const char *UpdateQuery::qname;
 
 QueryResult::Ptr UpdateQuery::execute() {
-  using namespace std;
+  // using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+
   if (this->operands.size() != 2)
     return make_unique<ErrorMsgResult>(
         qname, this->targetTable.c_str(),
@@ -41,7 +47,7 @@ QueryResult::Ptr UpdateQuery::execute() {
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

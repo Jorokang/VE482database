@@ -1,6 +1,8 @@
 #ifndef DELETEQUERY_H
 #define DELETEQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 
 class DeleteQuery : public ComplexQuery {

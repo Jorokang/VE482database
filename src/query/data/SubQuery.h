@@ -1,6 +1,9 @@
 #ifndef SUBQUERY_H
 #define SUBQUERY_H
 
+#include <string>
+#include <vector>
+
 #include "../Query.h"
 
 class SubQuery : public ComplexQuery {

@@ -1,9 +1,12 @@
-#include "MinQuery.h"
+#include <limits>
+#include <memory>
+#include <vector>
+
 #include "../../db/Database.h"
 #include "../../db/Table.h"
 #include "../../utils/uexception.h"
 #include "../QueryResult.h"
-#include <limits>
+#include "MinQuery.h"
 
 constexpr const char *MinQuery::qname;
 

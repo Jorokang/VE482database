@@ -1,9 +1,10 @@
 #ifndef SWAPQUERY_H
 #define SWAPQUERY_H
 
+#include <string>
+
 #include "../Query.h"
 #include "../QueryResult.h"
-#include <string>
 
 class SwapQuery : public ComplexQuery {
   static constexpr const char *qname = "SWAP";

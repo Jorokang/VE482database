@@ -1,12 +1,19 @@
-#include "DuplicateQuery.h"
-#include "../../db/Database.h"
 #include <iostream>
+#include <memory>
+#include <stdexcept>
 #include <vector>
+
+#include "../../db/Database.h"
+#include "DuplicateQuery.h"
 
 constexpr const char *DuplicateQuery::qname;
 
 QueryResult::Ptr DuplicateQuery::execute() {
-  using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+  using std::vector;
+
   Database &db = Database::getInstance();
   Table::SizeType counter = 0;
 
@@ -26,7 +33,7 @@ QueryResult::Ptr DuplicateQuery::execute() {
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

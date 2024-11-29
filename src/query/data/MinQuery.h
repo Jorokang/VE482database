@@ -1,9 +1,10 @@
 #ifndef MIN_QUERY_H
 #define MIN_QUERY_H
 
+#include <string>
+
 #include "../Query.h"
 #include "../QueryResult.h"
-#include <string>
 
 class MinQuery : public ComplexQuery {
   static constexpr const char *qname = "MIN";

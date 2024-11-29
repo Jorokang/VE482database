@@ -1,13 +1,24 @@
-#include "SelectQuery.h"
-#include "../../db/Database.h"
+#include <exception>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "../../db/Database.h"
+#include "SelectQuery.h"
+
 constexpr const char *SelectQuery::qname;
 
 QueryResult::Ptr SelectQuery::execute() {
-  using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+  using std::ostringstream;
+  using std::pair;
+  using std::sort;
+  using std::string;
+  using std::vector;
+
   Database &db = Database::getInstance();
   try {
     auto &table = db[this->targetTable];
@@ -15,7 +26,6 @@ QueryResult::Ptr SelectQuery::execute() {
 
     vector<Table::FieldIndex> targetFields;
     targetFields.reserve(this->operands.size());
-    // for (const auto &field : this->operands) {
     for (auto it = this->operands.begin() + 1; it != this->operands.end();
          ++it) {
       targetFields.push_back(table.getFieldIndex(*it));
@@ -47,7 +57,7 @@ QueryResult::Ptr SelectQuery::execute() {
     return make_unique<SuccessMsgResult>(os.str(), true);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

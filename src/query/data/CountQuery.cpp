@@ -1,11 +1,18 @@
-#include "CountQuery.h"
-#include "../../db/Database.h"
+#include <exception>
 #include <memory>
+#include <stdexcept>
+
+#include "../../db/Database.h"
+#include "CountQuery.h"
 
 constexpr const char *CountQuery::qname;
 
 QueryResult::Ptr CountQuery::execute() {
-  using namespace std;
+  // using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+  using std::string;
 
   Database &db = Database::getInstance();
 
@@ -23,7 +30,7 @@ QueryResult::Ptr CountQuery::execute() {
     return make_unique<SuccessMsgResult>(count, true);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

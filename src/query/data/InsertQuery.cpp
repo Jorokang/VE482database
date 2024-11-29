@@ -5,6 +5,12 @@
 #include "InsertQuery.h"
 
 #include <algorithm>
+#include <exception>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "../../db/Database.h"
 #include "../QueryResult.h"
@@ -12,7 +18,11 @@
 constexpr const char *InsertQuery::qname;
 
 QueryResult::Ptr InsertQuery::execute() {
-  using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+  using std::vector;
+
   if (this->operands.empty())
     return make_unique<ErrorMsgResult>(qname, this->targetTable.c_str(),
                                        "No operand (? operands)."_f %
@@ -30,7 +40,7 @@ QueryResult::Ptr InsertQuery::execute() {
     return std::make_unique<SuccessMsgResult>(qname, targetTable);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {
