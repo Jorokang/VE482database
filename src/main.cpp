@@ -90,8 +90,10 @@ int main(int argc, char *argv[]) {
     exit(-1);
   } else if (parsedArgs.threads == 0) {
     auto t_count = std::thread::hardware_concurrency();
-    if (t_count == 0){
-      std::cerr << "lemondb: error: can not detect thread num, will use 1 thread" << std::endl;
+    if (t_count == 0) {
+      std::cerr
+          << "lemondb: error: can not detect thread num, will use 1 thread"
+          << std::endl;
       parsedArgs.threads = 1;
     } else {
       std::cerr << "lemondb: info: auto detect thread num" << std::endl;

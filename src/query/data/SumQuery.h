@@ -7,11 +7,12 @@
 #include <vector>
 
 class SumQuery : public ComplexQuery {
-    static constexpr const char *qname = "SUM";
+  static constexpr const char *qname = "SUM";
+
 public:
-    using ComplexQuery::ComplexQuery;
-    QueryResult::Ptr execute() override;
-    std::string toString() override;
+  using ComplexQuery::ComplexQuery;
+  QueryResult::Ptr execute() override;
+  std::string toString() override;
 };
 
 #endif // SUMQUERY_H

@@ -3,42 +3,45 @@
 
 constexpr const char *SwapQuery::qname;
 
-QueryResult::Ptr SwapQuery::execute(){
-    using namespace std;
-    auto opcount = this->operands.size();
-    if (opcount != 2)
-        return std::make_unique<ErrorMsgResult>(
-            qname, this->targetTable.c_str(),
-            "Invalid number of operands (? operands)."_f % operands.size());
-    Database &db = Database::getInstance();
-    Table::SizeType counter = 0;
-    try {
-        auto &table = db[this->targetTable];
-        this->fieldId1 = table.getFieldIndex(this->operands[0]);
-        this->fieldId2 = table.getFieldIndex(this->operands[1]);
-        auto result = initCondition(table);
-        if (result.second) {
-            for (auto it = table.begin(); it != table.end(); ++it) {
-                if (this->evalCondition(*it)) {
-                    auto &field1 = (*it)[this->fieldId1];
-                    auto &field2 = (*it)[this->fieldId2];
-                    std::swap(field1, field2);
-                    ++counter;
-                }
-            }
+QueryResult::Ptr SwapQuery::execute() {
+  using namespace std;
+  auto opcount = this->operands.size();
+  if (opcount != 2)
+    return std::make_unique<ErrorMsgResult>(
+        qname, this->targetTable.c_str(),
+        "Invalid number of operands (? operands)."_f % operands.size());
+  Database &db = Database::getInstance();
+  Table::SizeType counter = 0;
+  try {
+    auto &table = db[this->targetTable];
+    this->fieldId1 = table.getFieldIndex(this->operands[0]);
+    this->fieldId2 = table.getFieldIndex(this->operands[1]);
+    auto result = initCondition(table);
+    if (result.second) {
+      for (auto it = table.begin(); it != table.end(); ++it) {
+        if (this->evalCondition(*it)) {
+          auto &field1 = (*it)[this->fieldId1];
+          auto &field2 = (*it)[this->fieldId2];
+          std::swap(field1, field2);
+          ++counter;
         }
-        return make_unique<RecordCountResult>(counter);
-    } catch (const TableNameNotFound &e){
-        return make_unique<ErrorMsgResult>(qname, this->targetTable, "No such table."s);
-    } catch (const IllFormedQueryCondition &e){
-        return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
-    } catch (const invalid_argument &e){
-        return make_unique<ErrorMsgResult>(qname, this->targetTable, "Unknown error '?'"_f % e.what());
-    } catch (const exception &e){
-        return make_unique<ErrorMsgResult>(qname, this->targetTable, "Unkonwn error '?'."_f % e.what());
+      }
     }
+    return make_unique<RecordCountResult>(counter);
+  } catch (const TableNameNotFound &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+                                       "No such table."s);
+  } catch (const IllFormedQueryCondition &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+  } catch (const invalid_argument &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+                                       "Unknown error '?'"_f % e.what());
+  } catch (const exception &e) {
+    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+                                       "Unkonwn error '?'."_f % e.what());
+  }
 }
 
-std::string SwapQuery::toString(){
-    return "QUERY = SWAP " + this->targetTable + "\"";
+std::string SwapQuery::toString() {
+  return "QUERY = SWAP " + this->targetTable + "\"";
 }

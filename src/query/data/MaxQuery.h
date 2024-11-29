@@ -7,10 +7,10 @@
 
 class MaxQuery : public ComplexQuery {
 public:
-    static constexpr const char *qname = "MAX";
-    using ComplexQuery::ComplexQuery;
-    QueryResult::Ptr execute() override;
-    std::string toString() override;
+  static constexpr const char *qname = "MAX";
+  using ComplexQuery::ComplexQuery;
+  QueryResult::Ptr execute() override;
+  std::string toString() override;
 };
 
 #endif // MAX_QUERY_H

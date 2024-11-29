@@ -97,11 +97,11 @@ public:
     this->msg = R"(Query "?" success.)"_f % qname;
   }
 
-  explicit SuccessMsgResult(const std::string &msg, bool to_display) { 
+  explicit SuccessMsgResult(const std::string &msg, bool to_display) {
     is_display = to_display;
     newline = false;
-    this->msg = msg; 
-    }
+    this->msg = msg;
+  }
 
   SuccessMsgResult(const char *qname, const std::string &msg) {
     this->msg = R"(Query "?" success : ?)"_f % qname % msg;
@@ -145,21 +145,22 @@ private:
   std::vector<std::vector<std::string>> records;
 
 public:
-
-  SelectQueryResult(size_t recordCount, std::vector<std::vector<std::string>> records)
+  SelectQueryResult(size_t recordCount,
+                    std::vector<std::vector<std::string>> records)
       : recordCount(recordCount), records(std::move(records)) {}
 
   size_t getRecordCount() const { return recordCount; }
-  const std::vector<std::vector<std::string>>& getRecords() const { return records; }
+  const std::vector<std::vector<std::string>> &getRecords() const {
+    return records;
+  }
 
   bool display() override { return true; }
 
 protected:
-
   std::ostream &output(std::ostream &os) const override {
     os << "Query returned " << recordCount << " record(s):\n";
-    for (const auto& record : records) {
-      for (const auto& field : record) {
+    for (const auto &record : records) {
+      for (const auto &field : record) {
         os << field << " ";
       }
       os << "\n";

@@ -6,15 +6,16 @@
 #include <string>
 
 class SwapQuery : public ComplexQuery {
-    static constexpr const char *qname = "SWAP";
-    Table::FieldIndex fieldId1;
-    Table::FieldIndex fieldId2;
+  static constexpr const char *qname = "SWAP";
+  Table::FieldIndex fieldId1;
+  Table::FieldIndex fieldId2;
+
 public:
-    using ComplexQuery::ComplexQuery;
+  using ComplexQuery::ComplexQuery;
 
-    QueryResult::Ptr execute() override;
+  QueryResult::Ptr execute() override;
 
-    std::string toString() override;
+  std::string toString() override;
 };
 
 #endif

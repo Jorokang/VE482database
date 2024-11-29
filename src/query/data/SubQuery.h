@@ -4,17 +4,17 @@
 #include "../Query.h"
 
 class SubQuery : public ComplexQuery {
-    static constexpr const char *qname = "SUB";
-    std::vector<Table::FieldIndex> fieldIds;
-    Table::FieldIndex srcFieldId;
-    Table::FieldIndex destFieldId;
-    
+  static constexpr const char *qname = "SUB";
+  std::vector<Table::FieldIndex> fieldIds;
+  Table::FieldIndex srcFieldId;
+  Table::FieldIndex destFieldId;
+
 public:
-    using ComplexQuery::ComplexQuery;
-    
-    QueryResult::Ptr execute() override;
-    
-    std::string toString() override;
+  using ComplexQuery::ComplexQuery;
+
+  QueryResult::Ptr execute() override;
+
+  std::string toString() override;
 };
 
 #endif

@@ -6,11 +6,12 @@
 #include <string>
 
 class MinQuery : public ComplexQuery {
-    static constexpr const char *qname = "MIN";
+  static constexpr const char *qname = "MIN";
+
 public:
-    using ComplexQuery::ComplexQuery;
-    QueryResult::Ptr execute() override;
-    std::string toString() override;
+  using ComplexQuery::ComplexQuery;
+  QueryResult::Ptr execute() override;
+  std::string toString() override;
 };
 
 #endif // MIN_QUERY_H
