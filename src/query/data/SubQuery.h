@@ -15,6 +15,12 @@ public:
     QueryResult::Ptr execute() override;
     
     std::string toString() override;
+
+    std::vector<Table::FieldIndex> getFieldIds() { return fieldIds; }
+    
+    Table::FieldIndex getSrcFieldId() { return srcFieldId; }
+
+    Table::FieldIndex getDestFieldId() { return destFieldId; }
 };
 
 #endif
