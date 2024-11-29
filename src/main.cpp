@@ -2,9 +2,9 @@
 // Created by liu on 18-10-21.
 //
 
-#include <cstdint>
 #include <getopt.h>
 
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <string>

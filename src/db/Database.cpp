@@ -112,7 +112,7 @@ Table &Database::loadTableFromStream(std::istream &is,
                       : "Invalid table format: ";
 
   std::string tableName;
-  Table::SizeType fieldCount;
+  Table::SizeType fieldCount = 0;
   std::deque<Table::KeyType> fields;
 
   std::string line;
@@ -167,7 +167,7 @@ Table &Database::loadTableFromStream(std::istream &is,
     std::vector<Table::ValueType> tuple;
     tuple.reserve(fieldCount - 1);
     for (Table::SizeType i = 1; i < fieldCount; ++i) {
-      Table::ValueType value;
+      Table::ValueType value = 0;
       if (!(sstream >> value))
         throw LoadFromStreamException(errString + "Invalid row on LINE " +
                                       std::to_string(lineCount));
