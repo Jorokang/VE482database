@@ -83,7 +83,7 @@ public:
     this->msg = R"(ANSWER = ?)"_f % number;
   }
 
-  explicit SuccessMsgResult(std::vector<int> results, bool to_display) {
+  explicit SuccessMsgResult(const std::vector<int> &results, bool to_display) {
     is_display = to_display;
     std::stringstream ss;
     ss << "ANSWER = ( ";
