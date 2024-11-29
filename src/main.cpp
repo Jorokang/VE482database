@@ -2,6 +2,7 @@
 // Created by liu on 18-10-21.
 //
 
+#include <cstdint>
 #include <getopt.h>
 
 #include <fstream>
@@ -14,7 +15,8 @@
 
 struct {
   std::string listen;
-  long threads = 0;
+  // long threads = 0;
+  int64_t threads = 0;
 } parsedArgs;
 
 void parseArgs(int argc, char *argv[]) {
