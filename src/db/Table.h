@@ -296,7 +296,7 @@ public:
    *
    * @param toBeDuplicated
    */
-  void duplicateKey(std::vector<KeyType> &keys);
+  void duplicateKey(const std::vector<KeyType> &keys);
 
   /**
    * @brief Delete a row of data by its key

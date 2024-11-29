@@ -5,6 +5,11 @@
 #ifndef PROJECT_QUERYBUILDERS_H
 #define PROJECT_QUERYBUILDERS_H
 
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "../db/Table.h"
 #include "QueryParser.h"
 
@@ -53,7 +58,7 @@ public:
     return nextBuilder->tryExtractQuery(query);
   }
 
-  BasicQueryBuilder() : nextBuilder(FailedQueryBuilder::getDefault()) {};
+  BasicQueryBuilder() : nextBuilder(FailedQueryBuilder::getDefault()) {}
 
   void clear() override { nextBuilder->clear(); }
 

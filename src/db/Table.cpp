@@ -33,7 +33,7 @@ void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   this->data.emplace_back(key, data);
 }
 
-void Table::duplicateKey(std::vector<KeyType> &keys) {
+void Table::duplicateKey(const std::vector<KeyType> &keys) {
   for (auto &key : keys) {
     auto newKey = key + "_copy";
     auto data = (*this)[key]->it->datum;
