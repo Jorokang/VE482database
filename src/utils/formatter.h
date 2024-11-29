@@ -16,6 +16,8 @@ template <typename T> static inline std::string to_string(T t) {
   return std::to_string(t);
 }
 
+inline std::string to_string(const std::string &s) { return s; }
+
 template <typename T> inline std::string operator%(std::string format, T t) {
   auto ind = format.find('?');
   if (ind == 0 || format[ind - 1] != '\\') {
@@ -24,7 +26,8 @@ template <typename T> inline std::string operator%(std::string format, T t) {
   return format;
 }
 
-template <> inline std::string operator%(std::string format, std::string s) {
+template <>
+inline std::string operator%(std::string format, const std::string &s) {
   auto ind = format.find('?');
   if (ind == 0 || format[ind - 1] != '\\') {
     format.replace(ind, 1u, s);
