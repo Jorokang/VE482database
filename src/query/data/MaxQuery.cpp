@@ -44,7 +44,7 @@ QueryResult::Ptr MaxQuery::execute() {
         }
 
         if (found) {
-            return std::make_unique<SuccessMsgResult>(maxValues);
+            return std::make_unique<SuccessMsgResult>(maxValues, true);
         } else {
             return std::make_unique<NullQueryResult>();
         }

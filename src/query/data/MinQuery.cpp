@@ -37,7 +37,7 @@ QueryResult::Ptr MinQuery::execute() {
         }
 
         if (found) {
-            return std::make_unique<SuccessMsgResult>(minValues);
+            return std::make_unique<SuccessMsgResult>(minValues, true);
         } else {
             return std::make_unique<NullQueryResult>();
         }

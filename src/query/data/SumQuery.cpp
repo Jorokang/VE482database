@@ -38,7 +38,7 @@ QueryResult::Ptr SumQuery::execute() {
             }
         }
 
-        return std::make_unique<SuccessMsgResult>(sumValues);
+        return std::make_unique<SuccessMsgResult>(sumValues, true);
 
     } catch (const TableNameNotFound &e) {
         return std::make_unique<ErrorMsgResult>(qname, this->targetTable, "No such table.");

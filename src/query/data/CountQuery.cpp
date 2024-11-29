@@ -20,7 +20,7 @@ QueryResult::Ptr CountQuery::execute() {
         }
       }
     }
-    return make_unique<SuccessMsgResult>(count);
+    return make_unique<SuccessMsgResult>(count, true);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
                                        "No such table."s);

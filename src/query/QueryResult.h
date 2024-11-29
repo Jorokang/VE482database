@@ -75,13 +75,15 @@ class SuccessMsgResult : public SucceededQueryResult {
   std::string msg;
 
 public:
-  bool display() override { return false; }
+  bool display() override { return is_display; }
 
-  explicit SuccessMsgResult(const int number) {
+  explicit SuccessMsgResult(const int number, bool to_display) {
+    is_display = to_display;
     this->msg = R"(ANSWER = ?)"_f % number;
   }
 
-  explicit SuccessMsgResult(std::vector<int> results) {
+  explicit SuccessMsgResult(std::vector<int> results, bool to_display) {
+    is_display = to_display;
     std::stringstream ss;
     ss << "ANSWER = ( ";
     for (auto result : results) {
@@ -95,7 +97,10 @@ public:
     this->msg = R"(Query "?" success.)"_f % qname;
   }
 
-  explicit SuccessMsgResult(const std::string &msg) { this->msg = msg; }
+  explicit SuccessMsgResult(const std::string &msg, bool to_display) { 
+    is_display = to_display;
+    this->msg = msg; 
+    }
 
   SuccessMsgResult(const char *qname, const std::string &msg) {
     this->msg = R"(Query "?" success : ?)"_f % qname % msg;
@@ -105,6 +110,9 @@ public:
                    const std::string &msg) {
     this->msg = R"(Query "?" success in Table "?" : ?)"_f % qname % table % msg;
   }
+
+private:
+  bool is_display = false;
 
 protected:
   std::ostream &output(std::ostream &os) const override {
