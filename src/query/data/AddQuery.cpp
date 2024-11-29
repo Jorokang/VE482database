@@ -1,10 +1,19 @@
-#include "AddQuery.h"
+#include <exception>
+#include <memory>
+#include <stdexcept>
+#include <string>
+
 #include "../../db/Database.h"
+#include "AddQuery.h"
 
 constexpr const char *AddQuery::qname;
 
 QueryResult::Ptr AddQuery::execute() {
-  using namespace std;
+  // using namespace std;
+  using std::exception;
+  using std::invalid_argument;
+  using std::make_unique;
+  using std::string;
   auto opcount = this->operands.size();
   if (opcount < 2)
     return std::make_unique<ErrorMsgResult>(
@@ -37,7 +46,7 @@ QueryResult::Ptr AddQuery::execute() {
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable,
-                                       "No such table."s);
+                                       "No such table.");
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
   } catch (const invalid_argument &e) {

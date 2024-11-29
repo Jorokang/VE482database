@@ -1,6 +1,9 @@
 #ifndef ADDQUERY_H
 #define ADDQUERY_H
 
+#include <string>
+#include <vector>
+
 #include "../Query.h"
 
 class AddQuery : public ComplexQuery {
