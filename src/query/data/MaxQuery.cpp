@@ -81,11 +81,11 @@ QueryResult::Ptr MaxQuery::execute() {
             thread_num = std::min(thread_num, (unsigned int)(table.size() / 2000 + 1));
             unsigned int const subtable_size = (unsigned int)(table.size()) / thread_num;
             std::vector<std::future<void>> future_vector((unsigned long)thread_num);
-            for (int i = 0; i < (int)thread_num; ++i) 
+            for (unsigned long i = 0; i < thread_num; ++i)
                 future_vector[i] = pool.add_task(max_subtable, i, thread_num, std::ref(table), std::ref(*this),
                                                  std::ref(this->operands), std::ref(max_values), std::ref(condition),
                                                  subtable_size, std::ref(mut));
-            for (int i = 0; i < (int)thread_num; i++) 
+            for (unsigned long i = 0; i < thread_num; i++)
                 future_vector[i].get();
             return std::make_unique<SuccessMsgResult>(max_values, true);
         }
