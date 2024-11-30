@@ -66,10 +66,31 @@ public:
 };
 
 class ComplexQueryBuilder : public BasicQueryBuilder {
-protected:
+  // protected:
   std::string targetTable;
   std::vector<std::string> operandToken;
   std::vector<QueryCondition> conditionToken;
+
+protected:
+  void setTargetTable(std::string &&table) { targetTable = std::move(table); }
+
+  std::string getTargetTable() const { return targetTable; }
+
+  const std::vector<std::string> &getOperandToken() const {
+    return operandToken;
+  }
+
+  const std::vector<QueryCondition> &getConditionToken() const {
+    return conditionToken;
+  }
+
+  void setOperandToken(std::vector<std::string> &&operand) {
+    operandToken = std::move(operand);
+  }
+
+  void setConditionToken(std::vector<QueryCondition> &&condition) {
+    conditionToken = std::move(condition);
+  }
 
   virtual void parseToken(TokenizedQueryString &query);
 
