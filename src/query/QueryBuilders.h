@@ -17,17 +17,17 @@
 
 #define QueryBuilderClass(name)                                                \
   class QueryBuilder(name) : public QueryBuilder {                             \
-    Query::Ptr tryExtractQuery(TokenizedQueryString &query) override;          \
+    Query::Ptr tryExtractQuery(const TokenizedQueryString &query) override;    \
   }
 
 #define BasicQueryBuilderClass(name)                                           \
   class QueryBuilder(name) : public BasicQueryBuilder {                        \
-    Query::Ptr tryExtractQuery(TokenizedQueryString &query) override;          \
+    Query::Ptr tryExtractQuery(const TokenizedQueryString &query) override;    \
   }
 
 #define ComplexQueryBuilderClass(name)                                         \
   class QueryBuilder(name) : public ComplexQueryBuilder {                      \
-    Query::Ptr tryExtractQuery(TokenizedQueryString &query) override;          \
+    Query::Ptr tryExtractQuery(const TokenizedQueryString &query) override;    \
   }
 
 class FailedQueryBuilder : public QueryBuilder {
@@ -36,7 +36,7 @@ public:
     return std::make_unique<FailedQueryBuilder>();
   }
 
-  Query::Ptr tryExtractQuery(TokenizedQueryString &q) final {
+  Query::Ptr tryExtractQuery(const TokenizedQueryString &q) final {
     throw QueryBuilderMatchFailed(q.rawQeuryString);
   }
 
@@ -48,13 +48,16 @@ public:
 };
 
 class BasicQueryBuilder : public QueryBuilder {
-protected:
+  // protected:
   QueryBuilder::Ptr nextBuilder;
+
+protected:
+  const QueryBuilder::Ptr &getNext() const { return nextBuilder; }
 
 public:
   void setNext(Ptr &&builder) override { nextBuilder = std::move(builder); }
 
-  Query::Ptr tryExtractQuery(TokenizedQueryString &query) override {
+  Query::Ptr tryExtractQuery(const TokenizedQueryString &query) override {
     return nextBuilder->tryExtractQuery(query);
   }
 
@@ -66,12 +69,33 @@ public:
 };
 
 class ComplexQueryBuilder : public BasicQueryBuilder {
-protected:
+  // protected:
   std::string targetTable;
   std::vector<std::string> operandToken;
   std::vector<QueryCondition> conditionToken;
 
-  virtual void parseToken(TokenizedQueryString &query);
+protected:
+  void setTargetTable(std::string &&table) { targetTable = std::move(table); }
+
+  std::string getTargetTable() const { return targetTable; }
+
+  const std::vector<std::string> &getOperandToken() const {
+    return operandToken;
+  }
+
+  const std::vector<QueryCondition> &getConditionToken() const {
+    return conditionToken;
+  }
+
+  void setOperandToken(std::vector<std::string> &&operand) {
+    operandToken = std::move(operand);
+  }
+
+  void setConditionToken(std::vector<QueryCondition> &&condition) {
+    conditionToken = std::move(condition);
+  }
+
+  virtual void parseToken(const TokenizedQueryString &query);
 
 public:
   void clear() override;
@@ -79,7 +103,7 @@ public:
   // public:
   // Used as a debugging function.
   // Prints the parsed information
-  Query::Ptr tryExtractQuery(TokenizedQueryString &query) override;
+  Query::Ptr tryExtractQuery(const TokenizedQueryString &query) override;
 };
 
 // Transparant builder
