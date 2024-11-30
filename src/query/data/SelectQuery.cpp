@@ -28,8 +28,8 @@ QueryResult::Ptr SelectQuery::execute() {
 
     vector<Table::FieldIndex> targetFields;
     targetFields.reserve(this->getOperands().size());
-    for (auto it = this->getOperands().begin() + 1; it != this->getOperands().end();
-         ++it) {
+    for (auto it = this->getOperands().begin() + 1;
+         it != this->getOperands().end(); ++it) {
       targetFields.push_back(table.getFieldIndex(*it));
     }
 

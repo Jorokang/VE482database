@@ -33,7 +33,8 @@ QueryResult::Ptr InsertQuery::execute() {
     auto &key = this->getOperands().front();
     vector<Table::ValueType> data;
     data.reserve(this->getOperands().size() - 1);
-    for (auto it = ++this->getOperands().begin(); it != this->getOperands().end(); ++it) {
+    for (auto it = ++this->getOperands().begin();
+         it != this->getOperands().end(); ++it) {
       data.emplace_back(strtol(it->c_str(), nullptr, 10));
     }
     table.insertByIndex(key, std::move(data));

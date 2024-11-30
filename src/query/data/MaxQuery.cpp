@@ -22,7 +22,8 @@ QueryResult::Ptr MaxQuery::execute() {
   if (this->getOperands().empty()) {
     return std::make_unique<ErrorMsgResult>(
         qname, this->getTargetTable().c_str(),
-        "Invalid number of this->getOperands() (? this->getOperands())."_f % this->getOperands().size());
+        "Invalid number of this->getOperands() (? this->getOperands())."_f %
+            this->getOperands().size());
   }
 
   try {
@@ -56,7 +57,8 @@ QueryResult::Ptr MaxQuery::execute() {
     return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "No such table.");
   } catch (const TableFieldNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
+                                            e.what());
   } catch (const std::exception &e) {
     return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "Unknown error '?'"_f % e.what());

@@ -11,8 +11,8 @@
 
 class UpdateQuery : public ComplexQuery {
   static constexpr const char *qname = "UPDATE";
-  Table::ValueType
-      fieldValue; // = (this->getOperands()[0]=="KEY")? 0 :std::stoi(this->getOperands()[1]);
+  Table::ValueType fieldValue; // = (this->getOperands()[0]=="KEY")? 0
+                               // :std::stoi(this->getOperands()[1]);
   Table::FieldIndex fieldId;
   Table::KeyType keyValue;
 

@@ -17,7 +17,8 @@ QueryResult::Ptr SubQuery::execute() {
   if (opcount < 2)
     return std::make_unique<ErrorMsgResult>(
         qname, this->getTargetTable().c_str(),
-        "Invalid number of this->getOperands() (? this->getOperands())."_f % getOperands().size());
+        "Invalid number of this->getOperands() (? this->getOperands())."_f %
+            getOperands().size());
   Database &db = Database::getInstance();
   Table::SizeType counter = 0;
   try {

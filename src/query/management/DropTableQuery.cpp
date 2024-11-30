@@ -19,7 +19,8 @@ QueryResult::Ptr DropTableQuery::execute() {
     db.dropTable(this->getTargetTable());
     return make_unique<SuccessMsgResult>(qname);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), "No such table.");
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
+                                       "No such table.");
   } catch (const exception &e) {
     return make_unique<ErrorMsgResult>(qname, e.what());
   }

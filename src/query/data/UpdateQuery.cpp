@@ -19,7 +19,8 @@ QueryResult::Ptr UpdateQuery::execute() {
   if (this->getOperands().size() != 2)
     return make_unique<ErrorMsgResult>(
         qname, this->getTargetTable().c_str(),
-        "Invalid number of this->getOperands() (? this->getOperands())."_f % this->getOperands().size());
+        "Invalid number of this->getOperands() (? this->getOperands())."_f %
+            this->getOperands().size());
   Database &db = Database::getInstance();
   Table::SizeType counter = 0;
   try {

@@ -21,7 +21,8 @@ QueryResult::Ptr SumQuery::execute() {
   if (this->getOperands().empty()) {
     return std::make_unique<ErrorMsgResult>(
         qname, this->getTargetTable().c_str(),
-        "Invalid number of this->getOperands() (? this->getOperands())."_f % getOperands().size());
+        "Invalid number of this->getOperands() (? this->getOperands())."_f %
+            getOperands().size());
   }
 
   try {
