@@ -1,3 +1,8 @@
+#include <exception>
+#include <memory>
+#include <stdexcept>
+#include <string>
+
 #include "AddQuery.h"
 #include "../../db/Database.h"
 #include "../Multithread.h"
@@ -34,7 +39,7 @@ void ThreadTaskSum(int ThreadInd,
 }
 
 QueryResult::Ptr AddQuery::execute() {
-    using namespace std;
+    using std::exception;
     using std::invalid_argument;
     using std::make_unique;
     using std::string;
