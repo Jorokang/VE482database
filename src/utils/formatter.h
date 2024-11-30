@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-template <typename T> static inline std::string to_string(std::vector<T> &vec) {
+template <typename T>
+static inline std::string to_string(const std::vector<T> &vec) {
   std::string str;
   for (const auto &val : vec) {
     str += std::to_string(val) + " ";
@@ -16,6 +17,8 @@ template <typename T> static inline std::string to_string(T t) {
   return std::to_string(t);
 }
 
+inline std::string to_string(const std::string &s) { return s; }
+
 template <typename T> inline std::string operator%(std::string format, T t) {
   auto ind = format.find('?');
   if (ind == 0 || format[ind - 1] != '\\') {
@@ -24,7 +27,8 @@ template <typename T> inline std::string operator%(std::string format, T t) {
   return format;
 }
 
-template <> inline std::string operator%(std::string format, std::string s) {
+template <>
+inline std::string operator%(std::string format, const std::string &s) {
   auto ind = format.find('?');
   if (ind == 0 || format[ind - 1] != '\\') {
     format.replace(ind, 1u, s);
@@ -41,6 +45,7 @@ template <> inline std::string operator%(std::string format, const char *s) {
 }
 
 inline std::string operator""_f(const char *str, size_t size) {
+  (void)size;
   return std::string(str);
 }
 

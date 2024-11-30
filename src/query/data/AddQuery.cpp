@@ -1,23 +1,22 @@
-//
-// Created by liu on 18-10-25.
-//
-
+#include <exception>
 #include <memory>
 #include <stdexcept>
+#include <string>
 
 #include "../../db/Database.h"
-#include "UpdateQuery.h"
+#include "AddQuery.h"
 
-// constexpr const char *UpdateQuery::qname;
+//// constexpr const char *AddQuery::qname;
 
-QueryResult::Ptr UpdateQuery::execute() {
+QueryResult::Ptr AddQuery::execute() {
   // using namespace std;
   using std::exception;
   using std::invalid_argument;
   using std::make_unique;
-
-  if (this->getOperands().size() != 2)
-    return make_unique<ErrorMsgResult>(
+  using std::string;
+  auto opcount = this->getOperands().size();
+  if (opcount < 2)
+    return std::make_unique<ErrorMsgResult>(
         qname, this->getTargetTable().c_str(),
         "Invalid number of this->getOperands() (? this->getOperands())."_f %
             this->getOperands().size());
@@ -25,22 +24,22 @@ QueryResult::Ptr UpdateQuery::execute() {
   Table::SizeType counter = 0;
   try {
     auto &table = db[this->getTargetTable()];
-    if (this->getOperands()[0] == "KEY") {
-      this->keyValue = this->getOperands()[1];
-    } else {
-      this->fieldId = table.getFieldIndex(this->getOperands()[0]);
-      this->fieldValue =
-          (Table::ValueType)strtol(this->getOperands()[1].c_str(), nullptr, 10);
+    this->destFieldId = table.getFieldIndex(this->getOperands()[opcount - 1]);
+    this->fieldIds.reserve(opcount - 1);
+    for (auto it = this->getOperands().begin();
+         it != this->getOperands().end() - 1; ++it) {
+      this->fieldIds.push_back(table.getFieldIndex(*it));
     }
     auto result = initCondition(table);
     if (result.second) {
       for (auto it = table.begin(); it != table.end(); ++it) {
         if (this->evalCondition(*it)) {
-          if (this->keyValue.empty()) {
-            (*it)[this->fieldId] = this->fieldValue;
-          } else {
-            it->setKey(this->keyValue);
+          auto &dest = (*it)[this->destFieldId];
+          auto sum = 0;
+          for (auto &fieldId : this->fieldIds) {
+            sum += (*it)[fieldId];
           }
+          dest = sum;
           ++counter;
         }
       }
@@ -52,7 +51,6 @@ QueryResult::Ptr UpdateQuery::execute() {
   } catch (const IllFormedQueryCondition &e) {
     return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
-    // Cannot convert operand to string
     return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
@@ -61,6 +59,6 @@ QueryResult::Ptr UpdateQuery::execute() {
   }
 }
 
-std::string UpdateQuery::toString() {
-  return "QUERY = UPDATE " + this->getTargetTable() + "\"";
+std::string AddQuery::toString() {
+  return "QUERY = ADD " + this->getTargetTable() + "\"";
 }

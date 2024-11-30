@@ -8,6 +8,10 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "Table.h"
 
@@ -103,12 +107,12 @@ std::string Database::getFileTableName(const std::string &fileName) {
 Table &Database::loadTableFromStream(std::istream &is,
                                      const std::string &source) {
   auto &db = Database::getInstance();
-  std::string errString =
+  std::string const errString =
       !source.empty() ? R"(Invalid table (from "?") format: )"_f % source
                       : "Invalid table format: ";
 
   std::string tableName;
-  Table::SizeType fieldCount;
+  Table::SizeType fieldCount = 0;
   std::deque<Table::KeyType> fields;
 
   std::string line;
@@ -163,7 +167,7 @@ Table &Database::loadTableFromStream(std::istream &is,
     std::vector<Table::ValueType> tuple;
     tuple.reserve(fieldCount - 1);
     for (Table::SizeType i = 1; i < fieldCount; ++i) {
-      Table::ValueType value;
+      Table::ValueType value = 0;
       if (!(sstream >> value))
         throw LoadFromStreamException(errString + "Invalid row on LINE " +
                                       std::to_string(lineCount));

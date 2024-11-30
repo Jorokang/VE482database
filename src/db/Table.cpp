@@ -7,11 +7,12 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "Database.h"
 
-constexpr const Table::ValueType Table::ValueTypeMax;
-constexpr const Table::ValueType Table::ValueTypeMin;
+// constexpr const Table::ValueType Table::ValueTypeMax;
+// constexpr const Table::ValueType Table::ValueTypeMin;
 
 Table::FieldIndex
 Table::getFieldIndex(const Table::FieldNameType &field) const {
@@ -24,12 +25,28 @@ Table::getFieldIndex(const Table::FieldNameType &field) const {
 
 void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
   if (this->keyMap.find(key) != this->keyMap.end()) {
-    std::string err = "In Table \"" + this->tableName + "\" : Key \"" + key +
-                      "\" already exists!";
+    std::string const err = "In Table \"" + this->tableName + "\" : Key \"" +
+                            key + "\" already exists!";
     throw ConflictingKey(err);
   }
   this->keyMap.emplace(key, this->data.size());
   this->data.emplace_back(key, data);
+}
+
+void Table::duplicateKey(const std::vector<KeyType> &keys) {
+  for (auto &key : keys) {
+    auto newKey = key + "_copy";
+    auto data = (*this)[key]->it->datum;
+    insertByIndex(newKey, std::move(data));
+  }
+}
+
+void Table::deleteByIndex(const KeyType &key) {
+  size_t const index = (size_t)(((*this)[key])->it - data.begin());
+  keyMap[data.back().key] = index;
+  keyMap.erase(key);
+  data[index] = data.back();
+  data.pop_back();
 }
 
 Table::Object::Ptr Table::operator[](const Table::KeyType &key) {

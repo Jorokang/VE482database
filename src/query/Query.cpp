@@ -2,9 +2,11 @@
 // Created by liu on 18-10-25.
 //
 
-#include "Query.h"
-
 #include <cassert>
+#include <unordered_map>
+#include <utility>
+
+#include "Query.h"
 
 std::pair<std::string, bool> ComplexQuery::initCondition(const Table &table) {
   const std::unordered_map<std::string, int> opmap{

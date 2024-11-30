@@ -8,6 +8,7 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "../utils/formatter.h"
@@ -75,13 +76,15 @@ class SuccessMsgResult : public SucceededQueryResult {
   std::string msg;
 
 public:
-  bool display() override { return false; }
+  bool display() override { return is_display; }
 
-  explicit SuccessMsgResult(const int number) {
-    this->msg = R"(ANSWER = "?".)"_f % number;
+  explicit SuccessMsgResult(const int number, bool to_display) {
+    is_display = to_display;
+    this->msg = R"(ANSWER = ?)"_f % number;
   }
 
-  explicit SuccessMsgResult(std::vector<int> results) {
+  explicit SuccessMsgResult(const std::vector<int> &results, bool to_display) {
+    is_display = to_display;
     std::stringstream ss;
     ss << "ANSWER = ( ";
     for (auto result : results) {
@@ -95,6 +98,12 @@ public:
     this->msg = R"(Query "?" success.)"_f % qname;
   }
 
+  explicit SuccessMsgResult(const std::string &msg, bool to_display) {
+    is_display = to_display;
+    newline = false;
+    this->msg = msg;
+  }
+
   SuccessMsgResult(const char *qname, const std::string &msg) {
     this->msg = R"(Query "?" success : ?)"_f % qname % msg;
   }
@@ -104,9 +113,16 @@ public:
     this->msg = R"(Query "?" success in Table "?" : ?)"_f % qname % table % msg;
   }
 
+private:
+  bool is_display = false;
+  bool newline = true;
+
 protected:
   std::ostream &output(std::ostream &os) const override {
-    return os << msg << "\n";
+    if (newline)
+      return os << msg << "\n";
+    else
+      return os << msg;
   }
 };
 
@@ -124,4 +140,33 @@ protected:
   }
 };
 
+class SelectQueryResult : public SucceededQueryResult {
+private:
+  size_t recordCount;
+  std::vector<std::vector<std::string>> records;
+
+public:
+  SelectQueryResult(size_t recordCount,
+                    std::vector<std::vector<std::string>> records)
+      : recordCount(recordCount), records(std::move(records)) {}
+
+  size_t getRecordCount() const { return recordCount; }
+  const std::vector<std::vector<std::string>> &getRecords() const {
+    return records;
+  }
+
+  bool display() override { return true; }
+
+protected:
+  std::ostream &output(std::ostream &os) const override {
+    os << "Query returned " << recordCount << " record(s):\n";
+    for (const auto &record : records) {
+      for (const auto &field : record) {
+        os << field << " ";
+      }
+      os << "\n";
+    }
+    return os;
+  }
+};
 #endif // PROJECT_QUERYRESULT_H

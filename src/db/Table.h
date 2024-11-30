@@ -5,6 +5,7 @@
 #ifndef PROJECT_DB_TABLE_H
 #define PROJECT_DB_TABLE_H
 
+#include <iostream>
 #include <limits>
 #include <memory>
 #include <string>
@@ -49,15 +50,20 @@ public:
 
 private:
   /** A row in the table */
-  struct Datum {
+  // struct Datum {
+  class Datum {
     /** Unique key of this datum */
     KeyType key;
     /** The values in the order of fields */
     std::vector<ValueType> datum;
 
+  public:
+    friend class Table;
+    friend std::ostream &operator<<(std::ostream &os, const Table &table);
     Datum() = default;
 
     Datum(const Datum &) = default;
+    Datum &operator=(const Datum &) = default;
 
     explicit Datum(const SizeType &size) {
       datum = std::vector<ValueType>(size, ValueType());
@@ -233,7 +239,9 @@ public:
 
     bool operator<(const IteratorImpl &other) { return this->it < other.it; }
 
-    bool operator>(const IteratorImpl &other) { return this->it > other.it; }
+    bool operator>(const IteratorImpl &other) const {
+      return this->it > other.it;
+    }
   };
 
   typedef IteratorImpl<Object, decltype(data.begin())> Iterator;
@@ -288,6 +296,49 @@ public:
   void insertByIndex(const KeyType &key, std::vector<ValueType> &&data);
 
   /**
+   * @brief Duplicate a vector of keys
+   *
+   * @param toBeDuplicated
+   */
+  void duplicateKey(const std::vector<KeyType> &keys);
+
+  /**
+   * @brief Delete a row of data by its key
+   *
+   * @param key
+   */
+  void deleteByIndex(const KeyType &key);
+
+  /**
+   * @brief Check if the key is duplicated
+   *
+   * @param key
+   * @return true if the key is not duplicated
+   */
+  bool checkNotDuplicate(KeyType key) {
+    key += "_copy";
+    return keyMap.find(key) == keyMap.end();
+  }
+
+  /**
+   * @brief Print the table data for debugging
+   *
+   */
+  // void printData() {
+  //   std::cout << "Debug: printing table by accessing (*this)[key]->it->datum"
+  //             << std::endl;
+  //   for (auto it = this->begin(); it != this->end(); ++it) {
+  //     std::cout << "Key: " << it->key() << " ";
+  //     for (auto &field : (*this)[it->key()]->it->datum) {
+  //       std::cout << field << " ";
+  //     }
+  //     std::cout << std::endl;
+  //   }
+  //   std::cout << "Debug: formal print of table" << (*this) << std::endl;
+  //   std::cout << std::endl;
+  // }
+
+  /**
    * Access the value according to the key
    * @param key
    * @return the Object that KEY = key, or nullptr if key doesn't exist
@@ -335,6 +386,7 @@ public:
     return result;
   }
 
+  // Iterator erase(Iterator pos);
   /**
    * Get a begin iterator similar to the standard iterator
    * @return begin iterator

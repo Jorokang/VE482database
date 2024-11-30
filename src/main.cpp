@@ -4,16 +4,19 @@
 
 #include <getopt.h>
 
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "query/QueryBuilders.h"
 #include "query/QueryParser.h"
 
 struct {
   std::string listen;
-  long threads = 0;
+  // long threads = 0;
+  int64_t threads = 0;
 } parsedArgs;
 
 void parseArgs(int argc, char *argv[]) {
@@ -21,7 +24,8 @@ void parseArgs(int argc, char *argv[]) {
                              {"threads", required_argument, nullptr, 't'},
                              {nullptr, no_argument, nullptr, 0}};
   const char *shortOpts = "l:t:";
-  int opt, longIndex;
+  int opt = 0;
+  int longIndex = 0;
   while ((opt = getopt_long(argc, argv, shortOpts, longOpts, &longIndex)) !=
          -1) {
     if (opt == 'l') {
@@ -38,7 +42,7 @@ void parseArgs(int argc, char *argv[]) {
 std::string extractQueryString(std::istream &is) {
   std::string buf;
   do {
-    int ch = is.get();
+    int const ch = is.get();
     if (ch == ';')
       return buf;
     if (ch == EOF)
@@ -88,8 +92,16 @@ int main(int argc, char *argv[]) {
               << parsedArgs.threads << std::endl;
     exit(-1);
   } else if (parsedArgs.threads == 0) {
-    // @TODO Auto detect the thread num
-    std::cerr << "lemondb: info: auto detect thread num" << std::endl;
+    auto t_count = std::thread::hardware_concurrency();
+    if (t_count == 0) {
+      std::cerr
+          << "lemondb: error: can not detect thread num, will use 1 thread"
+          << std::endl;
+      parsedArgs.threads = 1;
+    } else {
+      std::cerr << "lemondb: info: auto detect thread num" << std::endl;
+      parsedArgs.threads = t_count;
+    }
   } else {
     std::cerr << "lemondb: info: running in " << parsedArgs.threads
               << " threads" << std::endl;
@@ -107,7 +119,7 @@ int main(int argc, char *argv[]) {
     try {
       // A very standard REPL
       // REPL: Read-Evaluate-Print-Loop
-      std::string queryStr = extractQueryString(is);
+      std::string const queryStr = extractQueryString(is);
       Query::Ptr query = p.parseQuery(queryStr);
       QueryResult::Ptr result = query->execute();
       std::cout << ++counter << "\n";

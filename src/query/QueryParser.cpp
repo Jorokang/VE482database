@@ -1,6 +1,7 @@
 #include "QueryParser.h"
 
 #include <sstream>
+#include <utility>
 
 #include "Query.h"
 #include "QueryBuilders.h"
