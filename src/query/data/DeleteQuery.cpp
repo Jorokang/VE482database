@@ -1,7 +1,9 @@
+#include <algorithm>
 #include <future>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "../../db/Database.h"
@@ -57,8 +59,6 @@ QueryResult::Ptr DeleteQuery::execute() {
 
     unsigned int thread_num = (unsigned int)pool.get_idle_thread_num();
     if (thread_num == 1 || table.size() < 2000) { // Single-thread fallback
-      std::cout << "[DeleteQuery::execute] Running single-threaded.\n";
-
       if (result.second) {
         for (auto it = table.begin(); it != table.end();) {
           if (this->evalCondition(*it)) {
