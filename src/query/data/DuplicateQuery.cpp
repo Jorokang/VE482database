@@ -15,13 +15,13 @@
 extern Thread_pool pool;
 
 void ThreadTaskDuplicate(const int ThreadInd, const unsigned int ThreadNum,
-                         Table &table, DuplicateQuery &query,
-                         std::vector<Table::KeyType> &toBeInserted,
-                         size_t &counter,
+                         Table *table, DuplicateQuery *query,
+                         std::vector<Table::KeyType> *toBeInserted,
+                         size_t *counter,
                          const std::pair<std::string, bool> &result,
-                         const unsigned int RegionSize, std::mutex &mut) {
-  auto head = table.begin() + (ThreadInd * (int)RegionSize);
-  auto tail = (ThreadInd == (int)ThreadNum - 1) ? table.end()
+                         const unsigned int RegionSize, std::mutex *mut) {
+  auto head = table->begin() + (ThreadInd * (int)RegionSize);
+  auto tail = (ThreadInd == (int)ThreadNum - 1) ? table->end()
                                                 : (head + (int)RegionSize);
 
   std::vector<Table::KeyType> localToBeInserted;
@@ -29,7 +29,7 @@ void ThreadTaskDuplicate(const int ThreadInd, const unsigned int ThreadNum,
 
   if (result.second) {
     for (auto it = head; it != tail; ++it) {
-      if (query.evalCondition(*it) && table.checkNotDuplicate(it->key())) {
+      if (query->evalCondition(*it) && table->checkNotDuplicate(it->key())) {
         localToBeInserted.push_back(it->key());
         localCounter++;
       }
@@ -38,12 +38,43 @@ void ThreadTaskDuplicate(const int ThreadInd, const unsigned int ThreadNum,
 
   // Update shared resources (toBeInserted and counter) safely
   {
-    std::lock_guard<std::mutex> const lock(mut);
-    toBeInserted.insert(toBeInserted.end(), localToBeInserted.begin(),
-                        localToBeInserted.end());
-    counter += localCounter;
+    std::lock_guard<std::mutex> const lock(*mut);
+    toBeInserted->insert(toBeInserted->end(), localToBeInserted.begin(),
+                         localToBeInserted.end());
+    *counter += localCounter;
   }
 }
+
+// void ThreadTaskDuplicate(const int ThreadInd, const unsigned int ThreadNum,
+//                          Table &table, DuplicateQuery &query,
+//                          std::vector<Table::KeyType> &toBeInserted,
+//                          size_t &counter,
+//                          const std::pair<std::string, bool> &result,
+//                          const unsigned int RegionSize, std::mutex &mut) {
+//   auto head = table.begin() + (ThreadInd * (int)RegionSize);
+//   auto tail = (ThreadInd == (int)ThreadNum - 1) ? table.end()
+//                                                 : (head + (int)RegionSize);
+
+//   std::vector<Table::KeyType> localToBeInserted;
+//   size_t localCounter = 0;
+
+//   if (result.second) {
+//     for (auto it = head; it != tail; ++it) {
+//       if (query.evalCondition(*it) && table.checkNotDuplicate(it->key())) {
+//         localToBeInserted.push_back(it->key());
+//         localCounter++;
+//       }
+//     }
+//   }
+
+//   // Update shared resources (toBeInserted and counter) safely
+//   {
+//     std::lock_guard<std::mutex> const lock(mut);
+//     toBeInserted.insert(toBeInserted.end(), localToBeInserted.begin(),
+//                         localToBeInserted.end());
+//     counter += localCounter;
+//   }
+// }
 
 QueryResult::Ptr DuplicateQuery::execute() {
   using std::exception;
@@ -81,10 +112,13 @@ QueryResult::Ptr DuplicateQuery::execute() {
       vector<Table::KeyType> toBeInserted;
 
       for (uint64_t i = 0; i < thread_num; i++) {
-        future_vector[i] = pool.add_task(
-            ThreadTaskDuplicate, i, thread_num, std::ref(table),
-            std::ref(*this), std::ref(toBeInserted), std::ref(counter),
-            std::ref(result), RegionSize, std::ref(mut));
+        // future_vector[i] = pool.add_task(
+        //     ThreadTaskDuplicate, i, thread_num, std::ref(table),
+        //     std::ref(*this), std::ref(toBeInserted), std::ref(counter),
+        //     std::ref(result), RegionSize, std::ref(mut));
+        future_vector[i] = pool.add_task(ThreadTaskDuplicate, i, thread_num,
+                                         &table, this, &toBeInserted, &counter,
+                                         std::ref(result), RegionSize, &mut);
       }
 
       // Wait for all threads to complete
