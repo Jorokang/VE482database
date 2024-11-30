@@ -61,7 +61,9 @@ void ThreadTaskEqual(int ThreadInd,
 }
 
 QueryResult::Ptr SubQuery::execute() {
-    using namespace std;
+    using std::exception;
+    using std::invalid_argument;
+    using std::make_unique;
     auto opcount = this->getOperands().size();
     if (opcount < 2)
         return std::make_unique<ErrorMsgResult>(
