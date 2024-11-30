@@ -45,7 +45,7 @@ Query::Ptr FakeQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
   }
   if (count != 4)
     std::cerr << std::endl;
-  return this->nextBuilder->tryExtractQuery(query);
+  return this->getNext()->tryExtractQuery(query);
 }
 
 Query::Ptr
@@ -70,7 +70,7 @@ ManageTableQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
     if (query.token.front() == "COPYTABLE")
       return std::make_unique<CopyTableQuery>(query.token[1], query.token[2]);
   }
-  return this->nextBuilder->tryExtractQuery(query);
+  return this->getNext()->tryExtractQuery(query);
 }
 
 Query::Ptr DebugQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
@@ -151,7 +151,7 @@ Query::Ptr ComplexQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
     this->parseToken(query);
   } catch (const IllFormedQuery &e) {
     std::cerr << e.what() << std::endl;
-    return this->nextBuilder->tryExtractQuery(query);
+    return this->getNext()->tryExtractQuery(query);
   }
   std::string const operation = query.token.front();
   if (operation == "INSERT")
@@ -205,12 +205,12 @@ Query::Ptr ComplexQueryBuilder::tryExtractQuery(TokenizedQueryString &query) {
     std::cerr << cond.field << cond.op << cond.value << " ";
   std::cerr << std::endl;
 
-  return this->nextBuilder->tryExtractQuery(query);
+  return this->getNext()->tryExtractQuery(query);
 }
 
 void ComplexQueryBuilder::clear() {
   this->conditionToken.clear();
   this->targetTable = "";
   this->operandToken.clear();
-  this->nextBuilder->clear();
+  this->getNext()->clear();
 }

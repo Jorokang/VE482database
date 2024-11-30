@@ -48,8 +48,11 @@ public:
 };
 
 class BasicQueryBuilder : public QueryBuilder {
-protected:
+  // protected:
   QueryBuilder::Ptr nextBuilder;
+
+protected:
+  const QueryBuilder::Ptr &getNext() const { return nextBuilder; }
 
 public:
   void setNext(Ptr &&builder) override { nextBuilder = std::move(builder); }
