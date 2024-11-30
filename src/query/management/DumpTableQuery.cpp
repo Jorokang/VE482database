@@ -23,9 +23,9 @@ QueryResult::Ptr DumpTableQuery::execute() {
       return make_unique<ErrorMsgResult>(qname, "Cannot open file '?'"_f %
                                                     this->fileName);
     }
-    outfile << db[this->targetTable];
+    outfile << db[this->getTargetTable()];
     outfile.close();
-    return make_unique<SuccessMsgResult>(qname, targetTable);
+    return make_unique<SuccessMsgResult>(qname, this->getTargetTable());
   } catch (const exception &e) {
     return make_unique<ErrorMsgResult>(qname, e.what());
   }

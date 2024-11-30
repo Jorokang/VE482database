@@ -18,7 +18,7 @@ QueryResult::Ptr DuplicateQuery::execute() {
   Table::SizeType counter = 0;
 
   try {
-    Table &table = db[this->targetTable];
+    Table &table = db[this->getTargetTable()];
     auto result = initCondition(table);
     vector<Table::KeyType> toBeInserted;
     if (result.second) {
@@ -32,19 +32,19 @@ QueryResult::Ptr DuplicateQuery::execute() {
     table.duplicateKey(toBeInserted);
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   } catch (const IllFormedQueryCondition &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'."_f % e.what());
   }
 }
 
 std::string DuplicateQuery::toString() {
-  return "QUERY = DUPLICATE " + this->targetTable + "\"";
+  return "QUERY = DUPLICATE " + this->getTargetTable() + "\"";
 }

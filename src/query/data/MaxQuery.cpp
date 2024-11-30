@@ -14,30 +14,30 @@
 /**********************************************/
 
 std::string MaxQuery::toString() {
-  return "QUERY = MAX " + this->targetTable + "\"";
+  return "QUERY = MAX " + this->getTargetTable() + "\"";
 }
 
 QueryResult::Ptr MaxQuery::execute() {
 
-  if (this->operands.empty()) {
+  if (this->getOperands().empty()) {
     return std::make_unique<ErrorMsgResult>(
-        qname, this->targetTable.c_str(),
-        "Invalid number of operands (? operands)."_f % operands.size());
+        qname, this->getTargetTable().c_str(),
+        "Invalid number of this->getOperands() (? this->getOperands())."_f % this->getOperands().size());
   }
 
   try {
     auto &db = Database::getInstance();
-    auto &table = db[this->targetTable];
+    auto &table = db[this->getTargetTable()];
     auto condition = initCondition(table);
     bool found = false;
 
-    std::vector<int> maxValues(this->operands.size(), INT32_MIN);
+    std::vector<int> maxValues(this->getOperands().size(), INT32_MIN);
     if (condition.second) {
       for (auto row = table.begin(); row != table.end(); ++row) {
         if (this->evalCondition(*row)) {
           found = true;
-          for (size_t i = 0; i < this->operands.size(); ++i) {
-            auto value = (*row)[this->operands[i]];
+          for (size_t i = 0; i < this->getOperands().size(); ++i) {
+            auto value = (*row)[this->getOperands()[i]];
             if (value > maxValues[i]) {
               maxValues[i] = value;
             }
@@ -53,12 +53,12 @@ QueryResult::Ptr MaxQuery::execute() {
     }
 
   } catch (const TableNameNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "No such table.");
   } catch (const TableFieldNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const std::exception &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "Unknown error '?'"_f % e.what());
   }
 }

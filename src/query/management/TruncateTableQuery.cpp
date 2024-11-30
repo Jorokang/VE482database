@@ -11,20 +11,21 @@
 QueryResult::Ptr TruncateTableQuery::execute() {
   try {
     Database &db = Database::getInstance();
-    auto &table = db[this->targetTable];
+    auto &table = db[this->getTargetTable()];
     table.clear();
     return std::make_unique<NullQueryResult>();
   } catch (const TableNameNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "No such table.");
   } catch (const TableFieldNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
+                                            e.what());
   } catch (const std::exception &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "Unknown error '?'"_f % e.what());
   }
 }
 
 std::string TruncateTableQuery::toString() {
-  return "QUERY = TRUNCATE table \"" + this->targetTable + "\"";
+  return "QUERY = TRUNCATE table \"" + this->getTargetTable() + "\"";
 }

@@ -13,17 +13,17 @@ QueryResult::Ptr SubQuery::execute() {
   using std::invalid_argument;
   using std::make_unique;
 
-  auto opcount = this->operands.size();
+  auto opcount = this->getOperands().size();
   if (opcount < 2)
     return std::make_unique<ErrorMsgResult>(
-        qname, this->targetTable.c_str(),
-        "Invalid number of operands (? operands)."_f % operands.size());
+        qname, this->getTargetTable().c_str(),
+        "Invalid number of this->getOperands() (? this->getOperands())."_f % getOperands().size());
   Database &db = Database::getInstance();
   Table::SizeType counter = 0;
   try {
-    auto &table = db[this->targetTable];
-    this->destFieldId = table.getFieldIndex(this->operands[opcount - 1]);
-    this->srcFieldId = table.getFieldIndex(this->operands[0]);
+    auto &table = db[this->getTargetTable()];
+    this->destFieldId = table.getFieldIndex(this->getOperands()[opcount - 1]);
+    this->srcFieldId = table.getFieldIndex(this->getOperands()[0]);
     if (opcount == 2) {
       auto result = initCondition(table);
       if (result.second) {
@@ -37,8 +37,8 @@ QueryResult::Ptr SubQuery::execute() {
       }
     } else {
       this->fieldIds.reserve(opcount - 2);
-      for (auto it = this->operands.begin() + 1; it != this->operands.end() - 1;
-           ++it) {
+      for (auto it = this->getOperands().begin() + 1;
+           it != this->getOperands().end() - 1; ++it) {
         this->fieldIds.push_back(table.getFieldIndex(*it));
       }
       auto result = initCondition(table);
@@ -58,19 +58,19 @@ QueryResult::Ptr SubQuery::execute() {
     }
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   } catch (const IllFormedQueryCondition &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unkonwn error '?'."_f % e.what());
   }
 }
 
 std::string SubQuery::toString() {
-  return "QUERY = SUB " + this->targetTable + "\"";
+  return "QUERY = SUB " + this->getTargetTable() + "\"";
 }

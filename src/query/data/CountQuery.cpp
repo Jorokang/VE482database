@@ -17,7 +17,7 @@ QueryResult::Ptr CountQuery::execute() {
   Database &db = Database::getInstance();
 
   try {
-    Table &table = db[this->targetTable];
+    Table &table = db[this->getTargetTable()];
     auto result = initCondition(table);
     size_t count = 0;
     if (result.second) {
@@ -29,19 +29,19 @@ QueryResult::Ptr CountQuery::execute() {
     }
     return make_unique<SuccessMsgResult>(count, true);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   } catch (const IllFormedQueryCondition &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'."_f % e.what());
   }
 }
 
 std::string CountQuery::toString() {
-  return "QUERY = COUNT " + this->targetTable + "\"";
+  return "QUERY = COUNT " + this->getTargetTable() + "\"";
 }

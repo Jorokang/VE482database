@@ -16,15 +16,15 @@ QueryResult::Ptr DropTableQuery::execute() {
 
   Database &db = Database::getInstance();
   try {
-    db.dropTable(this->targetTable);
+    db.dropTable(this->getTargetTable());
     return make_unique<SuccessMsgResult>(qname);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, targetTable, "No such table.");
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), "No such table.");
   } catch (const exception &e) {
     return make_unique<ErrorMsgResult>(qname, e.what());
   }
 }
 
 std::string DropTableQuery::toString() {
-  return "QUERY = DROP, Table = \"" + targetTable + "\"";
+  return "QUERY = DROP, Table = \"" + this->getTargetTable() + "\"";
 }

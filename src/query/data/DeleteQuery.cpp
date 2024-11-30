@@ -17,7 +17,7 @@ QueryResult::Ptr DeleteQuery::execute() {
   Table::SizeType deletedCount = 0;
 
   try {
-    auto &table = db[this->targetTable];
+    auto &table = db[this->getTargetTable()];
 
     auto result = initCondition(table);
     if (result.second) {
@@ -32,18 +32,18 @@ QueryResult::Ptr DeleteQuery::execute() {
     }
     return make_unique<RecordCountResult>(deletedCount);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   } catch (const IllFormedQueryCondition &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'."_f % e.what());
   }
 }
 std::string DeleteQuery::toString() {
-  return "QUERY = DELETE " + this->targetTable;
+  return "QUERY = DELETE " + this->getTargetTable();
 }

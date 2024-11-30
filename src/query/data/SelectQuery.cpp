@@ -23,12 +23,12 @@ QueryResult::Ptr SelectQuery::execute() {
 
   Database &db = Database::getInstance();
   try {
-    auto &table = db[this->targetTable];
+    auto &table = db[this->getTargetTable()];
     auto result = initCondition(table);
 
     vector<Table::FieldIndex> targetFields;
-    targetFields.reserve(this->operands.size());
-    for (auto it = this->operands.begin() + 1; it != this->operands.end();
+    targetFields.reserve(this->getOperands().size());
+    for (auto it = this->getOperands().begin() + 1; it != this->getOperands().end();
          ++it) {
       targetFields.push_back(table.getFieldIndex(*it));
     }
@@ -58,19 +58,19 @@ QueryResult::Ptr SelectQuery::execute() {
 
     return make_unique<SuccessMsgResult>(os.str(), true);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   } catch (const IllFormedQueryCondition &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'."_f % e.what());
   }
 }
 
 std::string SelectQuery::toString() {
-  return "QUERY = SELECT " + this->targetTable + "\"";
+  return "QUERY = SELECT " + this->getTargetTable() + "\"";
 }

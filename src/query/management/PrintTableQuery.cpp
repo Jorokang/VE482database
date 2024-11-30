@@ -19,18 +19,18 @@ QueryResult::Ptr PrintTableQuery::execute() {
 
   Database &db = Database::getInstance();
   try {
-    auto &table = db[this->targetTable];
+    auto &table = db[this->getTargetTable()];
     cout << "================\n";
     cout << "TABLE = ";
     cout << table;
     cout << "================\n" << endl;
-    return make_unique<SuccessMsgResult>(qname, this->targetTable);
+    return make_unique<SuccessMsgResult>(qname, this->getTargetTable());
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   }
 }
 
 std::string PrintTableQuery::toString() {
-  return "QUERY = SHOWTABLE, Table = \"" + this->targetTable + "\"";
+  return "QUERY = SHOWTABLE, Table = \"" + this->getTargetTable() + "\"";
 }

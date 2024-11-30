@@ -24,9 +24,19 @@ struct QueryCondition {
 };
 
 class Query {
-protected:
   std::string targetTable;
   int id = -1;
+
+protected:
+  void setId(int id) { this->id = id; }
+
+  int getId() { return id; }
+
+  void setTargetTable(std::string targetTable) {
+    this->targetTable = std::move(targetTable);
+  }
+
+  std::string getTargetTable() { return targetTable; }
 
 public:
   Query() = default;
@@ -53,11 +63,20 @@ public:
 };
 
 class ComplexQuery : public Query {
-protected:
+  // protected:
   /** The field names in the first () */
   std::vector<std::string> operands;
   /** The function used in where clause */
   std::vector<QueryCondition> condition;
+
+protected:
+  void setOperands(std::vector<std::string> operands) {
+    this->operands = std::move(operands);
+  }
+
+  void setCondition(std::vector<QueryCondition> condition) {
+    this->condition = std::move(condition);
+  }
 
 public:
   typedef std::unique_ptr<ComplexQuery> Ptr;

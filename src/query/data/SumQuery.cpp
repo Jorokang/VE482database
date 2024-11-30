@@ -14,27 +14,27 @@
 /**********************************************/
 
 std::string SumQuery::toString() {
-  return "QUERY = SUM " + this->targetTable + "\"";
+  return "QUERY = SUM " + this->getTargetTable() + "\"";
 }
 
 QueryResult::Ptr SumQuery::execute() {
-  if (this->operands.empty()) {
+  if (this->getOperands().empty()) {
     return std::make_unique<ErrorMsgResult>(
-        qname, this->targetTable.c_str(),
-        "Invalid number of operands (? operands)."_f % operands.size());
+        qname, this->getTargetTable().c_str(),
+        "Invalid number of this->getOperands() (? this->getOperands())."_f % getOperands().size());
   }
 
   try {
     auto &db = Database::getInstance();
-    auto &table = db[this->targetTable];
+    auto &table = db[this->getTargetTable()];
     auto condition = initCondition(table);
 
-    std::vector<int> sumValues(this->operands.size(), 0);
+    std::vector<int> sumValues(this->getOperands().size(), 0);
     if (condition.second) {
       for (auto row = table.begin(); row != table.end(); ++row) {
         if (this->evalCondition(*row)) {
-          for (size_t i = 0; i < this->operands.size(); ++i) {
-            auto value = (*row)[this->operands[i]];
+          for (size_t i = 0; i < this->getOperands().size(); ++i) {
+            auto value = (*row)[this->getOperands()[i]];
             sumValues[i] += value;
           }
         }
@@ -44,12 +44,13 @@ QueryResult::Ptr SumQuery::execute() {
     return std::make_unique<SuccessMsgResult>(sumValues, true);
 
   } catch (const TableNameNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "No such table.");
   } catch (const TableFieldNotFound &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
+                                            e.what());
   } catch (const std::exception &e) {
-    return std::make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return std::make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                             "Unknown error '?'"_f % e.what());
   }
 }

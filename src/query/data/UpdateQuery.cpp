@@ -16,20 +16,20 @@ QueryResult::Ptr UpdateQuery::execute() {
   using std::invalid_argument;
   using std::make_unique;
 
-  if (this->operands.size() != 2)
+  if (this->getOperands().size() != 2)
     return make_unique<ErrorMsgResult>(
-        qname, this->targetTable.c_str(),
-        "Invalid number of operands (? operands)."_f % operands.size());
+        qname, this->getTargetTable().c_str(),
+        "Invalid number of this->getOperands() (? this->getOperands())."_f % this->getOperands().size());
   Database &db = Database::getInstance();
   Table::SizeType counter = 0;
   try {
-    auto &table = db[this->targetTable];
-    if (this->operands[0] == "KEY") {
-      this->keyValue = this->operands[1];
+    auto &table = db[this->getTargetTable()];
+    if (this->getOperands()[0] == "KEY") {
+      this->keyValue = this->getOperands()[1];
     } else {
-      this->fieldId = table.getFieldIndex(this->operands[0]);
+      this->fieldId = table.getFieldIndex(this->getOperands()[0]);
       this->fieldValue =
-          (Table::ValueType)strtol(this->operands[1].c_str(), nullptr, 10);
+          (Table::ValueType)strtol(this->getOperands()[1].c_str(), nullptr, 10);
     }
     auto result = initCondition(table);
     if (result.second) {
@@ -46,20 +46,20 @@ QueryResult::Ptr UpdateQuery::execute() {
     }
     return make_unique<RecordCountResult>(counter);
   } catch (const TableNameNotFound &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "No such table.");
   } catch (const IllFormedQueryCondition &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable, e.what());
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(), e.what());
   } catch (const invalid_argument &e) {
     // Cannot convert operand to string
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unknown error '?'"_f % e.what());
   } catch (const exception &e) {
-    return make_unique<ErrorMsgResult>(qname, this->targetTable,
+    return make_unique<ErrorMsgResult>(qname, this->getTargetTable(),
                                        "Unkonwn error '?'."_f % e.what());
   }
 }
 
 std::string UpdateQuery::toString() {
-  return "QUERY = UPDATE " + this->targetTable + "\"";
+  return "QUERY = UPDATE " + this->getTargetTable() + "\"";
 }
