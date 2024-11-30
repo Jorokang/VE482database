@@ -22,6 +22,12 @@ public:
   QueryResult::Ptr execute() override;
 
   std::string toString() override;
+
+  Table::ValueType getFieldValue() { return fieldValue; }
+
+  Table::FieldIndex getFieldId() { return fieldId; }
+
+  Table::KeyType getKeyValue() { return keyValue; }
 };
 
 #endif // PROJECT_UPDATEQUERY_H
