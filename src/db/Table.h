@@ -50,12 +50,16 @@ public:
 
 private:
   /** A row in the table */
-  struct Datum {
+  // struct Datum {
+  class Datum {
     /** Unique key of this datum */
     KeyType key;
     /** The values in the order of fields */
     std::vector<ValueType> datum;
 
+  public:
+    friend class Table;
+    friend std::ostream &operator<<(std::ostream &os, const Table &table);
     Datum() = default;
 
     Datum(const Datum &) = default;
