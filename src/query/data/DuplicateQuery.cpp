@@ -58,7 +58,6 @@ QueryResult::Ptr DuplicateQuery::execute() {
     Table &table = db[this->getTargetTable()];
     auto result = initCondition(table);
 
-    // Check if we should use multi-threading
     unsigned int thread_num = (unsigned int)pool.get_idle_thread_num();
     if (thread_num == 1 || table.size() < 2000) { // Single-threaded execution
       vector<Table::KeyType> toBeInserted;
@@ -71,7 +70,7 @@ QueryResult::Ptr DuplicateQuery::execute() {
         }
       }
       table.duplicateKey(toBeInserted);
-    } else { // Multi-threaded execution
+    } else {
       thread_num =
           std::min(thread_num, (unsigned int)(table.size() / 2000 + 1));
       unsigned int const RegionSize = (unsigned int)(table.size()) / thread_num;
@@ -85,7 +84,6 @@ QueryResult::Ptr DuplicateQuery::execute() {
                                          std::ref(result), RegionSize, &mut);
       }
 
-      // Wait for all threads to complete
       for (auto &fut : future_vector) {
         fut.get();
       }
