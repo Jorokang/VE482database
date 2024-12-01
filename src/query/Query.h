@@ -125,7 +125,7 @@ public:
   /** Get condition in the query, seems no use now */
   const std::vector<QueryCondition> &getCondition() { return condition; }
 
-  std::string toString() { return "QUERY = COMPLEX"; }
+  std::string toString() override { return "QUERY = COMPLEX"; }
 };
 
 #endif // PROJECT_QUERY_H

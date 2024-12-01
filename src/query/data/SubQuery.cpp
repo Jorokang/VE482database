@@ -2,6 +2,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
@@ -111,10 +112,15 @@ QueryResult::Ptr SubQuery::execute() {
           for (auto it = table.begin(); it != table.end(); ++it) {
             if (this->evalCondition(*it)) {
               auto &dest = (*it)[this->destFieldId];
-              int sum = 0;
-              for (const auto &fieldId : this->fieldIds) {
-                sum += (*it)[fieldId];
-              }
+              // int sum = 0;
+              // for (const auto &fieldId : this->fieldIds) {
+              //   sum += (*it)[fieldId];
+              // }
+              const int sum =
+                  std::accumulate(this->fieldIds.begin(), this->fieldIds.end(),
+                                  0, [&](int acc, const auto &fieldId) {
+                                    return acc + (*it)[fieldId];
+                                  });
               dest = (*it)[this->srcFieldId] - sum;
               ++counter;
             }

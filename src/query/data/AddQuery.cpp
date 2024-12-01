@@ -34,7 +34,7 @@ void ThreadTaskAdd(int threadId, unsigned int threadCount, Table *table,
           sum += (*it)[fieldId];
         }
         dest = sum;
-        // dest = std::accumulate(
+        // (*it)[query->getDestFieldId()] = std::accumulate(
         //     query->getFieldIds().begin(), query->getFieldIds().end(), 0,
         //     [&](int acc, const auto &fieldId) { return acc + (*it)[fieldId];
         //     });
@@ -78,12 +78,17 @@ QueryResult::Ptr AddQuery::execute() {
       if (condition.second) {
         for (auto it = table.begin(); it != table.end(); ++it) {
           if (this->evalCondition(*it)) {
-            auto &dest = (*it)[this->destFieldId];
-            int sum = 0;
-            for (const auto &fieldId : this->fieldIds) {
-              sum += (*it)[fieldId];
-            }
-            dest = sum;
+            // auto &dest = (*it)[this->destFieldId];
+            // int sum = 0;
+            // for (const auto &fieldId : this->fieldIds) {
+            //   sum += (*it)[fieldId];
+            // }
+            // dest = sum;
+            (*it)[this->destFieldId] =
+                std::accumulate(this->fieldIds.begin(), this->fieldIds.end(), 0,
+                                [&](int acc, const auto &fieldId) {
+                                  return acc + (*it)[fieldId];
+                                });
             ++counter;
           }
         }
@@ -126,6 +131,6 @@ QueryResult::Ptr AddQuery::execute() {
   }
 }
 
-std::string AddQuery::toString() {
-  return "QUERY = ADD " + this->getTargetTable() + "\"";
-}
+// std::string AddQuery::toString() {
+//   return "QUERY = ADD " + this->getTargetTable() + "\"";
+// }
