@@ -2,8 +2,6 @@
 
 ## Introduction
 
-<!-- This is the milestone 1 for LemonDB, a single-threaded database system implemented in C++. It supports basic SQL-like table management and data manipulation queries. The compiled binary can handle queries sequentially from standard input or from a file following Lemonion Inc.'s query format. -->
-
 LemonDB is a high-performance, multi-threaded database system written in C++. It supports SQL-like table management and data manipulation queries, optimized for scalability and parallelism. The system can process queries sequentially or concurrently from standard input or files in Lemonion Inc.'s custom query format.
 
 ## Key Features

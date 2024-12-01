@@ -13,7 +13,6 @@
 
 extern Thread_pool pool;
 
-// Thread task for subtraction operation
 void ThreadTaskSub(int threadId, unsigned int threadCount, Table *table,
                    SubQuery *query, size_t *globalCounter,
                    const std::pair<std::string, bool> *condition,
@@ -31,10 +30,9 @@ void ThreadTaskSub(int threadId, unsigned int threadCount, Table *table,
         auto &dest = (*it)[query->getDestFieldId()];
         int sum = 0;
         auto fieldIds = query->getFieldIds();
-        sum = std::accumulate(fieldIds.begin(), fieldIds.end(), 0,
-                          [&](int acc, const auto &fieldId) {
-                              return acc + (*it)[fieldId];
-                          });
+        sum = std::accumulate(
+            fieldIds.begin(), fieldIds.end(), 0,
+            [&](int acc, const auto &fieldId) { return acc + (*it)[fieldId]; });
         dest = (*it)[query->getSrcFieldId()] - sum;
         ++localCounter;
       }
@@ -45,7 +43,6 @@ void ThreadTaskSub(int threadId, unsigned int threadCount, Table *table,
   *globalCounter += localCounter;
 }
 
-// Thread task for equality operation
 void ThreadTaskEqual(int threadId, unsigned int threadCount, Table *table,
                      SubQuery *query, size_t *globalCounter,
                      const std::pair<std::string, bool> *condition,
@@ -114,10 +111,6 @@ QueryResult::Ptr SubQuery::execute() {
           for (auto it = table.begin(); it != table.end(); ++it) {
             if (this->evalCondition(*it)) {
               auto &dest = (*it)[this->destFieldId];
-              // int sum = 0;
-              // for (const auto &fieldId : this->fieldIds) {
-              //   sum += (*it)[fieldId];
-              // }
               const int sum =
                   std::accumulate(this->fieldIds.begin(), this->fieldIds.end(),
                                   0, [&](int acc, const auto &fieldId) {
@@ -130,7 +123,6 @@ QueryResult::Ptr SubQuery::execute() {
         }
       }
     } else {
-      // Multithreaded execution
       threadCount = std::min(
           threadCount,
           static_cast<unsigned int>(table.size() / MIN_THREAD_REGION_SIZE + 1));
@@ -160,7 +152,7 @@ QueryResult::Ptr SubQuery::execute() {
       }
 
       for (auto &future : futures) {
-        future.get(); // Ensure all threads complete
+        future.get();
       }
     }
 
@@ -180,7 +172,3 @@ QueryResult::Ptr SubQuery::execute() {
                                             "Unknown error '?'."_f % e.what());
   }
 }
-
-// std::string SubQuery::toString() {
-//   return "QUERY = SUB " + this->getTargetTable() + "\"";
-// }
