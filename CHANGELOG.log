@@ -24,4 +24,7 @@
 11/30: zyh add DuplicateQuery feature of multiple thread version.
 11/30: zlk add CountQuery feature of multiple thread version.
 11/30: zyh add DeleteQuery feature of multiple thread version.
+11/30: zyh fix code style.
 11/30: wyx add SelectQuery feature of multiple thread version.
+12/1: zyh add UpdateQuery feature of multiple thread version.
+12/1: zyh and zlk fix code style.
