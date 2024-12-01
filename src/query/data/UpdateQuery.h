@@ -19,6 +19,12 @@ class UpdateQuery : public ComplexQuery {
 public:
   using ComplexQuery::ComplexQuery;
 
+  UpdateQuery(std::string targetTable, std::vector<std::string> operands,
+              std::vector<QueryCondition> condition)
+      : ComplexQuery(std::move(targetTable), std::move(operands),
+                     std::move(condition)),
+        fieldValue(0), fieldId(0) {}
+
   QueryResult::Ptr execute() override;
 
   std::string toString() override;

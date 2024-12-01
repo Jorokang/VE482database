@@ -14,6 +14,12 @@ class SwapQuery : public ComplexQuery {
 public:
   using ComplexQuery::ComplexQuery;
 
+  SwapQuery(std::string targetTable, std::vector<std::string> operands,
+            std::vector<QueryCondition> condition)
+      : ComplexQuery(std::move(targetTable), std::move(operands),
+                     std::move(condition)),
+        fieldId1(0), fieldId2(0) {}
+
   QueryResult::Ptr execute() override;
 
   std::string toString() override;

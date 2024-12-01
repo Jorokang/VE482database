@@ -14,6 +14,12 @@ class AddQuery : public ComplexQuery {
 public:
   using ComplexQuery::ComplexQuery;
 
+  AddQuery(std::string targetTable, std::vector<std::string> operands,
+           std::vector<QueryCondition> condition)
+      : ComplexQuery(std::move(targetTable), std::move(operands),
+                     std::move(condition)),
+        destFieldId(0) {}
+
   std::vector<Table::FieldIndex> getFieldIds() { return fieldIds; }
 
   Table::FieldIndex getDestFieldId() { return destFieldId; }

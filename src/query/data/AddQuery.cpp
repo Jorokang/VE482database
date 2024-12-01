@@ -1,7 +1,9 @@
 #include <algorithm>
+#include <cstdint>
 #include <future>
 #include <memory>
 #include <mutex>
+#include <numeric>
 #include <string>
 #include <utility>
 #include <vector>
@@ -32,6 +34,10 @@ void ThreadTaskAdd(int threadId, unsigned int threadCount, Table *table,
           sum += (*it)[fieldId];
         }
         dest = sum;
+        // dest = std::accumulate(
+        //     query->getFieldIds().begin(), query->getFieldIds().end(), 0,
+        //     [&](int acc, const auto &fieldId) { return acc + (*it)[fieldId];
+        //     });
         ++localCounter;
       }
     }
