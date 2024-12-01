@@ -7,6 +7,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <numeric>
 
 #include "../../db/Database.h"
 #include "../Multithread.h"
@@ -29,12 +30,13 @@ void ThreadTaskAdd(int threadId, unsigned int threadCount, Table *table,
     for (auto it = head; it != tail; ++it) {
       if (query->evalCondition(*it)) {
         auto &dest = (*it)[query->getDestFieldId()];
-        int sum = 0;
-        for (const auto &fieldId : query->getFieldIds()) {
-          sum += (*it)[fieldId];
-        }
-        dest = sum;
-        // (*it)[query->getDestFieldId()] = std::accumulate(
+        auto fieldIds = query->getFieldIds();
+        dest = std::accumulate(fieldIds.begin(), fieldIds.end(), 0,
+                          [&](int acc, const auto &fieldId) {
+                              return acc + (*it)[fieldId];
+                          });
+
+        // (*it)[fieldIds] = std::accumulate(
         //     query->getFieldIds().begin(), query->getFieldIds().end(), 0,
         //     [&](int acc, const auto &fieldId) { return acc + (*it)[fieldId];
         //     });

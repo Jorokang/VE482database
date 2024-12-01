@@ -30,9 +30,11 @@ void ThreadTaskSub(int threadId, unsigned int threadCount, Table *table,
       if (query->evalCondition(*it)) {
         auto &dest = (*it)[query->getDestFieldId()];
         int sum = 0;
-        for (const auto &fieldId : query->getFieldIds()) {
-          sum += (*it)[fieldId];
-        }
+        auto fieldIds = query->getFieldIds();
+        sum = std::accumulate(fieldIds.begin(), fieldIds.end(), 0,
+                          [&](int acc, const auto &fieldId) {
+                              return acc + (*it)[fieldId];
+                          });
         dest = (*it)[query->getSrcFieldId()] - sum;
         ++localCounter;
       }
