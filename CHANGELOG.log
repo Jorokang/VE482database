@@ -7,24 +7,28 @@
 11/19: zlk add MinQuery feature of single thread version.
 11/21: zcy add thread detection feature.
 11/21: zcy fix missing header in QueryBuilders.cpp.
+11/21: wyx fix bugs of MaxQuery and MinQuery.
 11/22: zcy report bug with RecordCountResult.
-11/22: zcy add AddQuery feature.
-11/22: zcy add SubQeury feature.
-11/22: zcy add SwapQuery feature.
-11/23: zyh add CountQuery feature.
-11/23: zyh add SelectQuery feature.
-11/23: wyx add DeleteQuery feature.
+11/22: zcy add AddQuery feature of single thread version.
+11/22: zcy add SubQeury feature of single thread version.
+11/22: zcy add SwapQuery feature of single thread version.
+11/23: zyh add CountQuery feature of single thread version.
+11/23: zyh add SelectQuery feature of single thread version.
+11/23: wyx add DeleteQuery feature of single thread version.
 11/23: zlk add MaxQuery feature of multiple thread version.
 11/23: zlk add SumQuery feature of multiple thread version.
 11/23: zlk add MinQuery feature of multiple thread version.
 11/24: zcy add AddQuery feature of multiple thread version.
 11/24: zcy add SubQuery feature of multiple thread version.
 11/24: zcy add SwapQuery feature of multiple thread version.
-11/24: zyh add DuplicateQuery feature.
+11/24: zyh add DuplicateQuery feature of single thread version.
+11/25: zyh fix conflict between delete and duplicate.
+11/29: zyh fix code style for cpplint.
+11/29: zyh merge every team member's code with fixed code style.
 11/30: zyh add DuplicateQuery feature of multiple thread version.
 11/30: zlk add CountQuery feature of multiple thread version.
-11/30: zyh add DeleteQuery feature of multiple thread version.
-11/30: zyh fix code style.
+11/30: zyh and wyx add DeleteQuery feature of multiple thread version.
+11/30: zyh fix code style for clang-tidy.
 11/30: wyx add SelectQuery feature of multiple thread version.
 12/1: zyh add UpdateQuery feature of multiple thread version.
-12/1: zyh and zlk fix code style.
+12/1: zyh and zlk fix remaining code style issues.
