@@ -14,7 +14,7 @@ public:
 
   QueryResult::Ptr execute() override;
 
-  std::string toString() override;
+  // std::string toString() override;
 };
 
 #endif // COUNTQUERY_H

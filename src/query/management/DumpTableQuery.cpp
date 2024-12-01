@@ -16,7 +16,7 @@ QueryResult::Ptr DumpTableQuery::execute() {
   using std::make_unique;
   using std::ofstream;
 
-  auto &db = Database::getInstance();
+  const auto &db = Database::getInstance();
   try {
     ofstream outfile(this->fileName);
     if (!outfile.is_open()) {
@@ -31,6 +31,6 @@ QueryResult::Ptr DumpTableQuery::execute() {
   }
 }
 
-std::string DumpTableQuery::toString() {
-  return "QUERY = Dump TABLE, FILE = \"" + this->fileName + "\"";
-}
+// std::string DumpTableQuery::toString() {
+//   return "QUERY = Dump TABLE, FILE = \"" + this->fileName + "\"";
+// }

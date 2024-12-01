@@ -48,7 +48,7 @@ public:
 
   virtual QueryResult::Ptr execute() = 0;
 
-  virtual std::string toString() = 0;
+  // virtual std::string toString() = 0;
 
   virtual ~Query() = default;
 };
@@ -59,7 +59,7 @@ public:
     return std::make_unique<NullQueryResult>();
   }
 
-  std::string toString() override { return "QUERY = NOOP"; }
+  // std::string toString() override { return "QUERY = NOOP"; }
 };
 
 class ComplexQuery : public Query {
@@ -109,9 +109,10 @@ public:
    * @param function
    * @return
    */
-  bool testKeyCondition(
-      Table &table,
-      const std::function<void(bool, Table::Object::Ptr &&)> &function);
+  // bool testKeyCondition(
+  //     // Table &table,
+  //     Table *table,
+  //     const std::function<void(bool, Table::Object::Ptr &&)> &function);
 
   ComplexQuery(std::string targetTable, std::vector<std::string> operands,
                std::vector<QueryCondition> condition)
@@ -123,6 +124,8 @@ public:
 
   /** Get condition in the query, seems no use now */
   const std::vector<QueryCondition> &getCondition() { return condition; }
+
+  // std::string toString() override { return "QUERY = COMPLEX"; }
 };
 
 #endif // PROJECT_QUERY_H

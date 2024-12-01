@@ -17,9 +17,9 @@ QueryResult::Ptr PrintTableQuery::execute() {
   using std::endl;
   using std::make_unique;
 
-  Database &db = Database::getInstance();
+  const Database &db = Database::getInstance();
   try {
-    auto &table = db[this->getTargetTable()];
+    const auto &table = db[this->getTargetTable()];
     cout << "================\n";
     cout << "TABLE = ";
     cout << table;
@@ -31,6 +31,6 @@ QueryResult::Ptr PrintTableQuery::execute() {
   }
 }
 
-std::string PrintTableQuery::toString() {
-  return "QUERY = SHOWTABLE, Table = \"" + this->getTargetTable() + "\"";
-}
+// std::string PrintTableQuery::toString() {
+//   return "QUERY = SHOWTABLE, Table = \"" + this->getTargetTable() + "\"";
+// }

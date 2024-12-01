@@ -70,22 +70,23 @@ bool ComplexQuery::evalCondition(const Table::Object &object) {
   return ret;
 }
 
-bool ComplexQuery::testKeyCondition(
-    Table &table,
-    const std::function<void(bool, Table::Object::Ptr &&)> &function) {
-  auto condResult = initCondition(table);
-  if (!condResult.second) {
-    function(false, nullptr);
-    return true;
-  }
-  if (!condResult.first.empty()) {
-    auto object = table[condResult.first];
-    if (object != nullptr && evalCondition(*object)) {
-      function(true, std::move(object));
-    } else {
-      function(false, nullptr);
-    }
-    return true;
-  }
-  return false;
-}
+// bool ComplexQuery::testKeyCondition(
+//     // Table &table,
+//     Table *table,
+//     const std::function<void(bool, Table::Object::Ptr &&)> &function) {
+//   auto condResult = initCondition(*table);
+//   if (!condResult.second) {
+//     function(false, nullptr);
+//     return true;
+//   }
+//   if (!condResult.first.empty()) {
+//     auto object = (*table)[condResult.first];
+//     if (object != nullptr && evalCondition(*object)) {
+//       function(true, std::move(object));
+//     } else {
+//       function(false, nullptr);
+//     }
+//     return true;
+//   }
+//   return false;
+// }

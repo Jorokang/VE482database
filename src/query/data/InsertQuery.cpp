@@ -54,6 +54,6 @@ QueryResult::Ptr InsertQuery::execute() {
   }
 }
 
-std::string InsertQuery::toString() {
-  return "QUERY = INSERT " + this->getTargetTable() + "\"";
-}
+// std::string InsertQuery::toString() {
+//   return "QUERY = INSERT " + this->getTargetTable() + "\"";
+// }

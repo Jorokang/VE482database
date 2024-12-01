@@ -16,4 +16,4 @@ QueryResult::Ptr ListTableQuery::execute() {
   return std::make_unique<SuccessMsgResult>(qname);
 }
 
-std::string ListTableQuery::toString() { return "QUERY = LIST"; }
+// std::string ListTableQuery::toString() { return "QUERY = LIST"; }

@@ -13,7 +13,7 @@ class SumQuery : public ComplexQuery {
 public:
   using ComplexQuery::ComplexQuery;
   QueryResult::Ptr execute() override;
-  std::string toString() override;
+  // std::string toString() override;
 };
 
 #endif // SUMQUERY_H

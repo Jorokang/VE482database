@@ -15,7 +15,7 @@ public:
       : Query(std::move(table)), newtable(std::move(newtable)) {}
 
   QueryResult::Ptr execute() override;
-  std::string toString() override;
+  // std::string toString() override;
 };
 
 #endif // COPYTABLEQUERY_H
