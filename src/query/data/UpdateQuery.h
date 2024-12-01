@@ -6,6 +6,8 @@
 #define PROJECT_UPDATEQUERY_H
 
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "../Query.h"
 

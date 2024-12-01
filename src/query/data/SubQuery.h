@@ -2,6 +2,7 @@
 #define SUBQUERY_H
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "../Query.h"

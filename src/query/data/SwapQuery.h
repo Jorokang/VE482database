@@ -2,6 +2,8 @@
 #define SWAPQUERY_H
 
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "../Query.h"
 #include "../QueryResult.h"
