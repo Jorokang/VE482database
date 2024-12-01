@@ -58,7 +58,8 @@ QueryResult::Ptr DeleteQuery::execute() {
     Table::SizeType deletedCount = 0;
 
     unsigned int thread_num = (unsigned int)pool.get_idle_thread_num();
-    if (thread_num == 1 || table.size() < MIN_THREAD_REGION_SIZE) { // Single-thread fallback
+    if (thread_num == 1 ||
+        table.size() < MIN_THREAD_REGION_SIZE) { // Single-thread fallback
       if (result.second) {
         for (auto it = table.begin(); it != table.end();) {
           if (this->evalCondition(*it)) {

@@ -59,7 +59,8 @@ QueryResult::Ptr DuplicateQuery::execute() {
     auto result = initCondition(table);
 
     unsigned int thread_num = (unsigned int)pool.get_idle_thread_num();
-    if (thread_num == 1 || table.size() < MIN_THREAD_REGION_SIZE) { // Single-threaded execution
+    if (thread_num == 1 ||
+        table.size() < MIN_THREAD_REGION_SIZE) { // Single-threaded execution
       vector<Table::KeyType> toBeInserted;
       if (result.second) {
         for (auto it = table.begin(); it != table.end(); ++it) {
