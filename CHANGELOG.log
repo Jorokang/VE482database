@@ -13,8 +13,15 @@
 11/22: zcy add SwapQuery feature.
 11/23: zyh add CountQuery feature.
 11/23: zyh add SelectQuery feature.
+11/23: wyx add DeleteQuery feature.
 11/23: zlk add MaxQuery feature of multiple thread version.
 11/23: zlk add SumQuery feature of multiple thread version.
 11/23: zlk add MinQuery feature of multiple thread version.
+11/24: zcy add AddQuery feature of multiple thread version.
+11/24: zcy add SubQuery feature of multiple thread version.
+11/24: zcy add SwapQuery feature of multiple thread version.
 11/24: zyh add DuplicateQuery feature.
-
+11/30: zyh add DuplicateQuery feature of multiple thread version.
+11/30: zlk add CountQuery feature of multiple thread version.
+11/30: zyh add DeleteQuery feature of multiple thread version.
+11/30: wyx add SelectQuery feature of multiple thread version.
