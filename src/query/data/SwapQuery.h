@@ -24,7 +24,7 @@ public:
 
   QueryResult::Ptr execute() override;
 
-  std::string toString() override;
+  // std::string toString() override;
 
   Table::FieldIndex getFieldId1() { return fieldId1; }
 

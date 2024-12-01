@@ -111,6 +111,6 @@ QueryResult::Ptr SumQuery::execute() {
   }
 }
 
-std::string SumQuery::toString() {
-  return "QUERY = SUM " + this->getTargetTable() + "\"";
-}
+// std::string SumQuery::toString() {
+//   return "QUERY = SUM " + this->getTargetTable() + "\"";
+// }

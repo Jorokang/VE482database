@@ -119,6 +119,6 @@ QueryResult::Ptr UpdateQuery::execute() {
   }
 }
 
-std::string UpdateQuery::toString() {
-  return "QUERY = UPDATE " + this->getTargetTable() + "\"";
-}
+// std::string UpdateQuery::toString() {
+//   return "QUERY = UPDATE " + this->getTargetTable() + "\"";
+// }

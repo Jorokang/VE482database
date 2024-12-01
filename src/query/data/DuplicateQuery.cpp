@@ -106,6 +106,6 @@ QueryResult::Ptr DuplicateQuery::execute() {
   }
 }
 
-std::string DuplicateQuery::toString() {
-  return "QUERY = DUPLICATE " + this->getTargetTable();
-}
+// std::string DuplicateQuery::toString() {
+//   return "QUERY = DUPLICATE " + this->getTargetTable();
+// }

@@ -140,6 +140,6 @@ QueryResult::Ptr CountQuery::execute() {
   }
 }
 
-std::string CountQuery::toString() {
-  return "QUERY = COUNT " + this->getTargetTable() + "\"";
-}
+// std::string CountQuery::toString() {
+//   return "QUERY = COUNT " + this->getTargetTable() + "\"";
+// }

@@ -31,6 +31,6 @@ QueryResult::Ptr DumpTableQuery::execute() {
   }
 }
 
-std::string DumpTableQuery::toString() {
-  return "QUERY = Dump TABLE, FILE = \"" + this->fileName + "\"";
-}
+// std::string DumpTableQuery::toString() {
+//   return "QUERY = Dump TABLE, FILE = \"" + this->fileName + "\"";
+// }

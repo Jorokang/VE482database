@@ -29,7 +29,7 @@ public:
 
   QueryResult::Ptr execute() override;
 
-  std::string toString() override;
+  // std::string toString() override;
 
   Table::ValueType getFieldValue() { return fieldValue; }
 

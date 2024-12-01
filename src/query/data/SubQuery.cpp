@@ -179,6 +179,6 @@ QueryResult::Ptr SubQuery::execute() {
   }
 }
 
-std::string SubQuery::toString() {
-  return "QUERY = SUB " + this->getTargetTable() + "\"";
-}
+// std::string SubQuery::toString() {
+//   return "QUERY = SUB " + this->getTargetTable() + "\"";
+// }

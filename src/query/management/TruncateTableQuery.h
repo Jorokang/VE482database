@@ -11,7 +11,7 @@ class TruncateTableQuery : public Query {
 public:
   using Query::Query;
   QueryResult::Ptr execute() override;
-  std::string toString() override;
+  // std::string toString() override;
 };
 
 #endif // TRUNCATETABLEQUERY_H

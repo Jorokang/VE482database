@@ -106,6 +106,6 @@ QueryResult::Ptr SwapQuery::execute() {
   }
 }
 
-std::string SwapQuery::toString() {
-  return "QUERY = SWAP " + this->getTargetTable() + "\"";
-}
+// std::string SwapQuery::toString() {
+//   return "QUERY = SWAP " + this->getTargetTable() + "\"";
+// }

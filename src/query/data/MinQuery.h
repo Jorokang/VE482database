@@ -12,7 +12,7 @@ class MinQuery : public ComplexQuery {
 public:
   using ComplexQuery::ComplexQuery;
   QueryResult::Ptr execute() override;
-  std::string toString() override;
+  // std::string toString() override;
 };
 
 #endif // MIN_QUERY_H

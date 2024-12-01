@@ -28,7 +28,7 @@ QueryResult::Ptr CopyTableQuery::execute() {
   }
 }
 
-std::string CopyTableQuery::toString() {
-  return "QUERY = COPYTABLE from \"" + this->getTargetTable() + "\" to \"" +
-         this->newtable + "\"";
-}
+// std::string CopyTableQuery::toString() {
+//   return "QUERY = COPYTABLE from \"" + this->getTargetTable() + "\" to \"" +
+//          this->newtable + "\"";
+// }

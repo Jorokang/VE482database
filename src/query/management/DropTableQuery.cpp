@@ -26,6 +26,6 @@ QueryResult::Ptr DropTableQuery::execute() {
   }
 }
 
-std::string DropTableQuery::toString() {
-  return "QUERY = DROP, Table = \"" + this->getTargetTable() + "\"";
-}
+// std::string DropTableQuery::toString() {
+//   return "QUERY = DROP, Table = \"" + this->getTargetTable() + "\"";
+// }

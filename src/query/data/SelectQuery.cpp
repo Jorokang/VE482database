@@ -130,6 +130,6 @@ QueryResult::Ptr SelectQuery::execute() {
   }
 }
 
-std::string SelectQuery::toString() {
-  return "QUERY = SELECT " + this->getTargetTable() + "\"";
-}
+// std::string SelectQuery::toString() {
+//   return "QUERY = SELECT " + this->getTargetTable() + "\"";
+// }

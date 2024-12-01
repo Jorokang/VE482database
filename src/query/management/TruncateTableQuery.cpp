@@ -26,6 +26,6 @@ QueryResult::Ptr TruncateTableQuery::execute() {
   }
 }
 
-std::string TruncateTableQuery::toString() {
-  return "QUERY = TRUNCATE table \"" + this->getTargetTable() + "\"";
-}
+// std::string TruncateTableQuery::toString() {
+//   return "QUERY = TRUNCATE table \"" + this->getTargetTable() + "\"";
+// }

@@ -31,6 +31,6 @@ QueryResult::Ptr PrintTableQuery::execute() {
   }
 }
 
-std::string PrintTableQuery::toString() {
-  return "QUERY = SHOWTABLE, Table = \"" + this->getTargetTable() + "\"";
-}
+// std::string PrintTableQuery::toString() {
+//   return "QUERY = SHOWTABLE, Table = \"" + this->getTargetTable() + "\"";
+// }

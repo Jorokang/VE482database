@@ -15,7 +15,7 @@ class ListTableQuery : public Query {
 public:
   QueryResult::Ptr execute() override;
 
-  std::string toString() override;
+  // std::string toString() override;
 };
 
 #endif // PROJECT_LISTTABLEQUERY_H

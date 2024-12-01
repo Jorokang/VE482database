@@ -111,6 +111,6 @@ QueryResult::Ptr DeleteQuery::execute() {
   }
 }
 
-std::string DeleteQuery::toString() {
-  return "QUERY = DELETE " + this->getTargetTable();
-}
+// std::string DeleteQuery::toString() {
+//   return "QUERY = DELETE " + this->getTargetTable();
+// }

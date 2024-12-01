@@ -139,6 +139,6 @@ QueryResult::Ptr MaxQuery::execute() {
   }
 }
 
-std::string MaxQuery::toString() {
-  return "QUERY = MAX " + this->getTargetTable() + "\"";
-}
+// std::string MaxQuery::toString() {
+//   return "QUERY = MAX " + this->getTargetTable() + "\"";
+// }

@@ -48,7 +48,7 @@ public:
 
   virtual QueryResult::Ptr execute() = 0;
 
-  virtual std::string toString() = 0;
+  // virtual std::string toString() = 0;
 
   virtual ~Query() = default;
 };
@@ -59,7 +59,7 @@ public:
     return std::make_unique<NullQueryResult>();
   }
 
-  std::string toString() override { return "QUERY = NOOP"; }
+  // std::string toString() override { return "QUERY = NOOP"; }
 };
 
 class ComplexQuery : public Query {
@@ -125,7 +125,7 @@ public:
   /** Get condition in the query, seems no use now */
   const std::vector<QueryCondition> &getCondition() { return condition; }
 
-  std::string toString() override { return "QUERY = COMPLEX"; }
+  // std::string toString() override { return "QUERY = COMPLEX"; }
 };
 
 #endif // PROJECT_QUERY_H

@@ -135,6 +135,6 @@ QueryResult::Ptr MinQuery::execute() {
   }
 }
 
-std::string MinQuery::toString() {
-  return "QUERY = MIN " + this->getTargetTable() + "\"";
-}
+// std::string MinQuery::toString() {
+//   return "QUERY = MIN " + this->getTargetTable() + "\"";
+// }
