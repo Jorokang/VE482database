@@ -82,7 +82,7 @@ QueryResult::Ptr MaxQuery::execute() {
 
     unsigned int threadCount =
         static_cast<unsigned int>(pool.get_idle_thread_num());
-    if (threadCount <= 1 || table.size() < 2000) {
+    if (threadCount <= 1 || table.size() < MIN_THREAD_REGION_SIZE) {
       // Single-threaded execution
       if (condition.second) {
         for (auto it = table.begin(); it != table.end(); ++it) {
