@@ -34,10 +34,10 @@ void Table::insertByIndex(const KeyType &key, std::vector<ValueType> &&data) {
 }
 
 void Table::duplicateKey(const std::vector<KeyType> &keys) {
-  for (auto &key : keys) {
+  for (const auto &key : keys) {
     auto newKey = key + "_copy";
-    auto data = (*this)[key]->it->datum;
-    insertByIndex(newKey, std::move(data));
+    auto dupData = (*this)[key]->it->datum;
+    insertByIndex(newKey, std::move(dupData));
   }
 }
 

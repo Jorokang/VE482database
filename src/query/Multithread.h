@@ -58,9 +58,7 @@ private:
   }
 
 public:
-  Thread_pool() {
-    idle_thread_num = 1;
-    is_closed = false;
+  Thread_pool() : is_closed(false), idle_thread_num(1) {
     thread_vector.emplace_back(&Thread_pool::init_thread, this);
   }
 
