@@ -4,5 +4,7 @@
 # It will auto build the program and run the test cases, including correctness and multithread performance.
 # For using more test cases, modify QUERY_FILE and OUTPUT_FILE.
 
+# cd ./src
+
 echo "No test cases for now. All test cases have been tested properly on server."
 exit 0
