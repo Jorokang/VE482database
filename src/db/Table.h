@@ -65,21 +65,27 @@ private:
     Datum(const Datum &) = default;
     Datum &operator=(const Datum &) = default;
 
-    explicit Datum(const SizeType &size) {
-      datum = std::vector<ValueType>(size, ValueType());
-    }
+    // explicit Datum(const SizeType &size) {
+    //   datum = std::vector<ValueType>(size, ValueType());
+    // }
+    explicit Datum(const SizeType &size) : datum(size, ValueType()) {}
 
+    // template <class ValueTypeContainer>
+    // explicit Datum(const KeyType &key, const ValueTypeContainer &datum) {
+    //   this->key = key;
+    //   this->datum = datum;
+    // }
     template <class ValueTypeContainer>
-    explicit Datum(const KeyType &key, const ValueTypeContainer &datum) {
-      this->key = key;
-      this->datum = datum;
-    }
+    explicit Datum(const KeyType &key, const ValueTypeContainer &datum)
+        : key(key), datum(datum.begin(), datum.end()) {}
 
-    explicit Datum(const KeyType &key,
-                   std::vector<ValueType> &&datum) noexcept {
-      this->key = key;
-      this->datum = std::move(datum);
-    }
+    // explicit Datum(const KeyType &key,
+    //                std::vector<ValueType> &&datum) noexcept {
+    //   this->key = key;
+    //   this->datum = std::move(datum);
+    // }
+    explicit Datum(const KeyType &key, std::vector<ValueType> &&datum) noexcept
+        : key(key), datum(std::move(datum)) {}
   };
 
   typedef std::vector<Datum>::iterator DataIterator;
