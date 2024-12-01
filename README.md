@@ -19,13 +19,12 @@ LemonDB is a high-performance, multi-threaded database system written in C++. It
     Contains the database implementation code.
 
   - `./src/query`
-    Contains the query parser, builder, thread, manager, and executor code. The subdirectory `./src/query/data/` contains the data manipulation query implementation. The subdirectory `./src/query/management/` contains the table management query implementation.
+
+    - Contains the query parser, builder, thread, manager, and executor code. The subdirectory `./src/query/data/` contains the data manipulation query implementation. The subdirectory `./src/query/management/` contains the table management query implementation.
+    - The `./src/query/Multithread.h` file contains the multithreaded query processing logic.
 
   - `./src/utils`
     - Contains utility code for the project.
-
-- `./test`
-  - Contains a sample test script for the project.
 
 ## Installation
 
@@ -60,7 +59,7 @@ cd build
 
 where `<filename>` is the name of the file containing the queries to be executed and `<num_threads>` is the number of threads to be used for query processing.
 
-For more detailed usage information such as query format and test script, see wiki.
+For more detailed usage information such as query format, see wiki.
 
 ## Copyright
 
