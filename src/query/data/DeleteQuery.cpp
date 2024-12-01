@@ -48,7 +48,6 @@ QueryResult::Ptr DeleteQuery::execute() {
   using std::make_unique;
 
   Database &db = Database::getInstance();
-  Table::SizeType deletedCount = 0;
 
   std::mutex keysMutex;
   std::vector<Table::KeyType> keysToDelete;
@@ -56,6 +55,7 @@ QueryResult::Ptr DeleteQuery::execute() {
   try {
     auto &table = db[this->getTargetTable()];
     auto result = initCondition(table);
+    Table::SizeType deletedCount = 0;
 
     unsigned int thread_num = (unsigned int)pool.get_idle_thread_num();
     if (thread_num == 1 || table.size() < 2000) { // Single-thread fallback

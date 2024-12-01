@@ -109,10 +109,10 @@ public:
    * @param function
    * @return
    */
-  bool testKeyCondition(
-      // Table &table,
-      Table *table,
-      const std::function<void(bool, Table::Object::Ptr &&)> &function);
+  // bool testKeyCondition(
+  //     // Table &table,
+  //     Table *table,
+  //     const std::function<void(bool, Table::Object::Ptr &&)> &function);
 
   ComplexQuery(std::string targetTable, std::vector<std::string> operands,
                std::vector<QueryCondition> condition)
