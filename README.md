@@ -1,4 +1,4 @@
-# LemonDB Documentation
+# VE482 coursework
 
 ## Introduction
 
